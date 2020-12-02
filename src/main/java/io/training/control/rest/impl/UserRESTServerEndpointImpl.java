@@ -7,6 +7,7 @@ import io.training.boundary.UserService;
 import io.training.control.rest.UserRESTServerEndpoint;
 import io.training.entity.User;
 
+import java.util.List;
 import java.util.Optional;
 
 @Stateless
@@ -20,6 +21,15 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
     return Response.ok().entity(user).build();
+  }
+
+  @Override
+  public Response getAllUsers() {
+    List<User> user = userService.findAll();
+    if(user.size()>0){
+      return Response.ok().entity(user).build();
+    }
+    return Response.status(Response.Status.NOT_FOUND).build();
   }
 
   @Override
@@ -54,7 +64,7 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
   public Response editUser(User user) {
     User editedUser = userService.edit(user);
     if (editedUser==null){
-      return Response.status(Response.Status.BAD_REQUEST).build();
+      return Response.status(Response.Status.NOT_FOUND).build();
     }
     return Response.ok().entity(editedUser).build();
   }

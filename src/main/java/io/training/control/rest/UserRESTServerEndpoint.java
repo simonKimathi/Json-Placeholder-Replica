@@ -32,6 +32,21 @@ public interface UserRESTServerEndpoint {
     Response retrieveUser(@PathParam("id") long id);
 
     @GET
+    @Path("/getAllUsers")
+    @Operation(
+            summary = "Get all Users",
+            responses = {
+                    @ApiResponse(
+                            description = "The User",
+                            content =
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = User.class))),
+                    @ApiResponse(responseCode = "400", description = "User not found")
+            })
+    Response getAllUsers();
+
+    @GET
     @Path("/getUserByEmail/{email}")
     @Operation(
             summary = "Get user by  email",
@@ -76,10 +91,10 @@ public interface UserRESTServerEndpoint {
             })
     Response createUser(User user);
 
-    @POST
+    @PUT
     @Path("/editUser")
     @Operation(
-            summary = "Create user",
+            summary = "Edit user",
             responses = {
                     @ApiResponse(
                             description = "The User",
