@@ -16,20 +16,20 @@ import io.training.entity.User;
 @Produces(APPLICATION_JSON)
 @Tag(name = "User")
 public interface UserRESTServerEndpoint {
-  @GET
-  @Path("/getUserById/{id}")
-  @Operation(
-      summary = "Get user by  id",
-      responses = {
-        @ApiResponse(
-            description = "The User",
-            content =
-                @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = User.class))),
-        @ApiResponse(responseCode = "400", description = "User not found")
-      })
-  Response retrieveUser(@PathParam("id") long id);
+    @GET
+    @Path("/getUserById/{id}")
+    @Operation(
+            summary = "Get user by  id",
+            responses = {
+                    @ApiResponse(
+                            description = "The User",
+                            content =
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = User.class))),
+                    @ApiResponse(responseCode = "400", description = "User not found")
+            })
+    Response retrieveUser(@PathParam("id") long id);
 
     @GET
     @Path("/getUserByEmail/{email}")
@@ -63,18 +63,33 @@ public interface UserRESTServerEndpoint {
 
 
     @POST
-  @Operation(
-          summary = "Create user",
-          responses = {
-                  @ApiResponse(
-                          description = "The User",
-                          content =
-                          @Content(
-                                  mediaType = "application/json",
-                                  schema = @Schema(implementation = User.class))),
-                  @ApiResponse(responseCode = "400", description = "Error")
-          })
-  Response createUser(User user);
+    @Operation(
+            summary = "Create user",
+            responses = {
+                    @ApiResponse(
+                            description = "The User",
+                            content =
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = User.class))),
+                    @ApiResponse(responseCode = "400", description = "Error")
+            })
+    Response createUser(User user);
+
+    @POST
+    @Path("/editUser")
+    @Operation(
+            summary = "Create user",
+            responses = {
+                    @ApiResponse(
+                            description = "The User",
+                            content =
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = User.class))),
+                    @ApiResponse(responseCode = "400", description = "Error")
+            })
+    Response editUser(User user);
 
     @DELETE
     @Path("/deleteUserById/{id}")

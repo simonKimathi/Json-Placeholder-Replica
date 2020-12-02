@@ -49,6 +49,18 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
     return Response.ok().entity(createdUser).build();
   }
 
+
+  @Override
+  public Response editUser(User user) {
+    User editedUser = userService.edit(user);
+    if (editedUser==null){
+      return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+    return Response.ok().entity(editedUser).build();
+  }
+
+
+
   @Override
   public Response deleteUser(long id) {
     User userDeleted = userService.find(id);
