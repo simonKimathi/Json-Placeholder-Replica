@@ -28,7 +28,7 @@ public class UserServiceImpl extends AbstractBeanImpl<User, Long> implements Use
   @Override
   public Optional<User> getUserByEmail(String email) {
     TypedQuery<User> userTypedQuery =getEntityManager()
-            .createQuery("select u from User where email= : email",User.class)
+            .createQuery("select u from User u where u.email =: email",User.class)
             .setParameter("email",email);
     List<User> userList=userTypedQuery.getResultList();
     if(userList.size()>0){
@@ -40,8 +40,8 @@ public class UserServiceImpl extends AbstractBeanImpl<User, Long> implements Use
   @Override
   public Optional<User> getUserByUsername(String username) {
     TypedQuery<User> userTypedQuery =getEntityManager()
-            .createQuery("select u from User where username= : username",User.class)
-            .setParameter("email",username);
+            .createQuery("select u from User u where u.username= : username",User.class)
+            .setParameter("username",username);
     List<User> userList=userTypedQuery.getResultList();
     if(userList.size()>0){
       return Optional.of(userList.get(0));

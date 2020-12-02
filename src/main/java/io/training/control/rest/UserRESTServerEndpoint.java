@@ -17,7 +17,7 @@ import io.training.entity.User;
 @Tag(name = "User")
 public interface UserRESTServerEndpoint {
   @GET
-  @Path("/{id}")
+  @Path("/getUserById/{id}")
   @Operation(
       summary = "Get user by  id",
       responses = {
@@ -32,6 +32,7 @@ public interface UserRESTServerEndpoint {
   Response retrieveUser(@PathParam("id") long id);
 
     @GET
+    @Path("/getUserByEmail/{email}")
     @Operation(
             summary = "Get user by  email",
             responses = {
@@ -43,7 +44,22 @@ public interface UserRESTServerEndpoint {
                                     schema = @Schema(implementation = User.class))),
                     @ApiResponse(responseCode = "400", description = "User not found")
             })
-    Response getUserByEmail(@QueryParam("email") String email);
+    Response getUserByEmail(@PathParam("email") String email);
+
+    @GET
+    @Path("/getUserByUsername")
+    @Operation(
+            summary = "Get user by  username",
+            responses = {
+                    @ApiResponse(
+                            description = "The User",
+                            content =
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = User.class))),
+                    @ApiResponse(responseCode = "400", description = "User not found")
+            })
+    Response getUserByUsername(@QueryParam("username") String username);
 
 
     @POST

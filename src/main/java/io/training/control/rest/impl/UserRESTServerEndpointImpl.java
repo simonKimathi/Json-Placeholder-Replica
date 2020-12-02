@@ -32,6 +32,15 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
   }
 
   @Override
+  public Response getUserByUsername(String username) {
+    Optional<User> user = userService.getUserByUsername(username);
+    if(user.isPresent()){
+      return Response.ok().entity(user.get()).build();
+    }
+    return Response.status(Response.Status.NOT_FOUND).build();
+  }
+
+  @Override
   public Response createUser(User user) {
     User createdUser = userService.create(user);
     if (createdUser==null){
