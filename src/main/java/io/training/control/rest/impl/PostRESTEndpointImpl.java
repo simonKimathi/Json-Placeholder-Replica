@@ -9,6 +9,9 @@ import io.training.control.rest.PostRESTEndpoint;
 import io.training.entity.Post;
 import io.training.entity.User;
 
+import java.util.List;
+import java.util.Optional;
+
 @Stateless
 public class PostRESTEndpointImpl implements PostRESTEndpoint {
   @EJB
@@ -18,15 +21,36 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
   public Response retrievePost(int id) {
     Post post = postService.find(id);
     if(post==null){
-      Error error = new Error();
-      ErrorInfo errorInfo =  new ErrorInfo();
-      errorInfo.setBriefSummary("User not found");
-      errorInfo.setStatusCode(400);
-      errorInfo.setDescriptionURL("http://localhost:8080/TrainingApp/swagger-ui/#/Post/retrievePost");
-      error.setErrorInfo(errorInfo);
-      return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+      return Response.status(Response.Status.NOT_FOUND).build();
     }
     return Response.ok().entity(post).build();
+  }
+
+  @Override
+  public Response getAllPosts() {
+    List<Post> postList = postService.findAll();
+    if(postList.size()>0){
+      return Response.ok().entity(postList).build();
+    }
+    return Response.status(Response.Status.NOT_FOUND).build();
+  }
+
+  @Override
+  public Response getPostByUserId(long userId) {
+    List<Post> userList = postService.getPostByUserId(userId);
+    if(userList != null){
+      return Response.ok().entity(userList).build();
+    }
+    return Response.status(Response.Status.NOT_FOUND).build();
+  }
+
+  @Override
+  public Response getPostByTitle(String title) {
+    List<Post> userList = postService.getPostByTitle(title);
+    if(userList != null){
+      return Response.ok().entity(userList).build();
+    }
+    return Response.status(Response.Status.NOT_FOUND).build();
   }
 
   @Override
@@ -36,5 +60,23 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
       return Response.status(Response.Status.BAD_REQUEST).build();
     }
     return Response.ok().entity(createdPost).build();
+  }
+
+  @Override
+  public Response editPost(Post post) {
+    Post editedPost = postService.edit(post);
+    if (editedPost==null){
+      return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+    return Response.ok().entity(editedPost).build();
+  }
+
+  @Override
+  public Response deletePost(int id) {
+    Post deletedPost = postService.find(id);
+    if (deletedPost==null){
+      return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+    return Response.ok().entity(postService.remove(deletedPost)).build();
   }
 }
