@@ -29,8 +29,8 @@ public class PostServiceImpl extends AbstractBeanImpl<Post,Integer> implements P
   @Override
   public List<Post> getPostByTitle(String title) {
     TypedQuery<Post> postTypedQuery = getEntityManager()
-            .createQuery("select p from Post p where p.title =: title", Post.class)
-            .setParameter("title", title);
+            .createQuery("select p from Post p where p.title LIKE : title", Post.class)
+            .setParameter("title", "%"+title+"%");
     List<Post> postList = postTypedQuery.getResultList();
     if(postList.size()>0){
       return postList;
