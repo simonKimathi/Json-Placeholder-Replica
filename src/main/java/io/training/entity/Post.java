@@ -1,12 +1,7 @@
 package io.training.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +19,7 @@ public class Post {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
   User user;
   @Column
   private String title;

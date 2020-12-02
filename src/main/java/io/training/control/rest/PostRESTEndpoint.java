@@ -32,7 +32,7 @@ public interface PostRESTEndpoint {
                                     schema = @Schema(implementation = Post.class))),
                     @ApiResponse(responseCode = "400", description = "Post not found")
             })
-    Response retrievePost(@PathParam("id") int id);
+    Response getPostById(@PathParam("id") int id);
 
     @GET
     @Path("/getAllPosts")

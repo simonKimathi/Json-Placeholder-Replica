@@ -18,7 +18,7 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
   private PostService postService;
 
   @Override
-  public Response retrievePost(int id) {
+  public Response getPostById(int id) {
     Post post = postService.find(id);
     if(post==null){
       return Response.status(Response.Status.NOT_FOUND).build();

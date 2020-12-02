@@ -9,13 +9,14 @@ import io.training.entity.Post;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Stateless
 public class CommentRestEndpointImpl implements CommentRestEndpoint {
     @EJB
     private CommentService CommentService;
 
-    @Override
+    /*@Override
     public Response retrieveComment(int id) {
         Comment comment = CommentService.find(id);
         if(comment==null){
@@ -28,14 +29,69 @@ public class CommentRestEndpointImpl implements CommentRestEndpoint {
             return Response.status(Response.Status.NOT_FOUND).entity(error).build();
         }
         return Response.ok().entity(comment).build();
-    }
+    }*/
 
     @Override
     public Response createComment(Comment comment) {
         Comment createdComment = CommentService.create(comment);
-        if (createdComment==null){
-            return Response.status(Response.Status.BAD_REQUEST).build();
+        if(createdComment==null){
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
         return Response.ok().entity(createdComment).build();
     }
+
+    @Override
+    public Response getCommentById(int id) {
+        Comment comment = CommentService.find(id);
+        if(comment==null){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok().entity(comment).build();
+    }
+
+    @Override
+    public Response getAllComments() {
+        List<Comment> commentList = CommentService.findAll();
+        if(commentList.size()>0){
+            return Response.ok().entity(commentList).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @Override
+    public Response getCommentByNameOrEmail(String nameOrEmail) {
+        List<Comment> commentList = CommentService.getCommentByNameOrEmail(nameOrEmail);
+        if(commentList.size()>0){
+            return Response.ok().entity(commentList).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @Override
+    public Response getCommentByPostId(int id) {
+        List<Comment> commentList = CommentService.getCommentByPostId(id);
+        if(commentList.size()>0){
+            return Response.ok().entity(commentList).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @Override
+    public Response editComment(Comment comment) {
+        Comment editedComment = CommentService.edit(comment);
+        if(editedComment==null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok().entity(editedComment).build();
+    }
+
+    @Override
+    public Response deleteComment(int id) {
+        Comment deletedComment = CommentService.find(id);
+        if(deletedComment==null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok().entity(CommentService.remove(deletedComment)).build();
+    }
+
 }
