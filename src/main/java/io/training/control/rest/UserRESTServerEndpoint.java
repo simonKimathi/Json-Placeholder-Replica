@@ -75,4 +75,19 @@ public interface UserRESTServerEndpoint {
                   @ApiResponse(responseCode = "400", description = "Error")
           })
   Response createUser(User user);
+
+    @DELETE
+    @Path("/deleteUserById/{id}")
+    @Operation(
+            summary = "Delete user by  id",
+            responses = {
+                    @ApiResponse(
+                            description = "The User",
+                            content =
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = User.class))),
+                    @ApiResponse(responseCode = "400", description = "User not found")
+            })
+    Response deleteUser(@PathParam("id") long id);
 }

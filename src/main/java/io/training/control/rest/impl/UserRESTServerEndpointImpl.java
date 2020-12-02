@@ -48,4 +48,14 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
     }
     return Response.ok().entity(createdUser).build();
   }
+
+  @Override
+  public Response deleteUser(long id) {
+    User userDeleted = userService.find(id);
+    if(userDeleted == null){
+      return Response.status(Response.Status.NOT_FOUND).build();
+
+    }
+    return Response.ok().entity(userService.remove(userDeleted)).build();
+  }
 }
