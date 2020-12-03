@@ -20,7 +20,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Tag(name = "Post")
 public interface PostRESTEndpoint {
     @GET
-    @Path("/getPostById/{id}")
+    @Path("/{id}")
     @Operation(
             summary = "Get Post by  id",
             responses = {
@@ -35,7 +35,6 @@ public interface PostRESTEndpoint {
     Response getPostById(@PathParam("id") int id);
 
     @GET
-    @Path("/getAllPosts")
     @Operation(
             summary = "Get all Posts",
             responses = {
@@ -95,7 +94,7 @@ public interface PostRESTEndpoint {
     Response createPost(Post post);
 
     @PUT
-    @Path("/editPost")
+    @Path("/{id}")
     @Operation(
             summary = "Edit Post",
             responses = {
@@ -107,10 +106,10 @@ public interface PostRESTEndpoint {
                                     schema = @Schema(implementation = Post.class))),
                     @ApiResponse(responseCode = "400", description = "Error")
             })
-    Response editPost(Post post);
+    Response editPost(@PathParam("id") int id, Post post);
 
     @DELETE
-    @Path("/deletePostById/{id}")
+    @Path("/{id}")
     @Operation(
             summary = "Delete Post by  id",
             responses = {

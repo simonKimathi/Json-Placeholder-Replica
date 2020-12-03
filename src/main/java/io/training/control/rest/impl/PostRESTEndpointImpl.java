@@ -63,11 +63,15 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
   }
 
   @Override
-  public Response editPost(Post post) {
-    Post editedPost = postService.edit(post);
-    if (editedPost==null){
+  public Response editPost(int id, Post post) {
+    if(id == post.getId()){
       return Response.status(Response.Status.BAD_REQUEST).build();
     }
+    Post FindPost = postService.find(id);
+    if(FindPost == null){
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+    Post editedPost = postService.edit(post);
     return Response.ok().entity(editedPost).build();
   }
 

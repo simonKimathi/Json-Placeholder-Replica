@@ -61,11 +61,15 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
 
 
   @Override
-  public Response editUser(User user) {
-    User editedUser = userService.edit(user);
-    if (editedUser==null){
+  public Response editUser(long id, User user) {
+    if(id == user.getId()){
+      return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+    User FindUser = userService.find(id);
+    if(FindUser == null){
       return Response.status(Response.Status.NOT_FOUND).build();
     }
+    User editedUser = userService.edit(user);
     return Response.ok().entity(editedUser).build();
   }
 

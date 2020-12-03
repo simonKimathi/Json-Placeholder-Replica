@@ -17,7 +17,7 @@ import io.training.entity.User;
 @Tag(name = "User")
 public interface UserRESTServerEndpoint {
     @GET
-    @Path("/getUserById/{id}")
+    @Path("/{id}")
     @Operation(
             summary = "Get user by  id",
             responses = {
@@ -32,7 +32,6 @@ public interface UserRESTServerEndpoint {
     Response retrieveUser(@PathParam("id") long id);
 
     @GET
-    @Path("/getAllUsers")
     @Operation(
             summary = "Get all Users",
             responses = {
@@ -92,7 +91,7 @@ public interface UserRESTServerEndpoint {
     Response createUser(User user);
 
     @PUT
-    @Path("/editUser")
+    @Path("/{id}")
     @Operation(
             summary = "Edit user",
             responses = {
@@ -104,10 +103,10 @@ public interface UserRESTServerEndpoint {
                                     schema = @Schema(implementation = User.class))),
                     @ApiResponse(responseCode = "400", description = "Error")
             })
-    Response editUser(User user);
+    Response editUser(@PathParam("id") long id, User user);
 
     @DELETE
-    @Path("/deleteUserById/{id}")
+    @Path("/{id}")
     @Operation(
             summary = "Delete user by  id",
             responses = {

@@ -22,7 +22,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 public interface CommentRestEndpoint {
 
         @GET
-        @Path("/getCommentById/{id}")
+        @Path("/{id}")
         @Operation(
                 summary = "Get Comment by  id",
                 responses = {
@@ -37,7 +37,6 @@ public interface CommentRestEndpoint {
         Response getCommentById(@PathParam("id") int id);
 
         @GET
-        @Path("/getAllComments")
         @Operation(
                 summary = "Get all Comments",
                 responses = {
@@ -97,7 +96,7 @@ public interface CommentRestEndpoint {
         Response createComment(Comment comment);
 
         @PUT
-        @Path("/editComment")
+        @Path("/{id}")
         @Operation(
                 summary = "Edit Comment",
                 responses = {
@@ -109,10 +108,10 @@ public interface CommentRestEndpoint {
                                         schema = @Schema(implementation = Comment.class))),
                         @ApiResponse(responseCode = "400", description = "Error")
                 })
-        Response editComment(Comment comment);
+        Response editComment(@PathParam("id") int id , Comment comment);
 
         @DELETE
-        @Path("/deleteCommentById/{id}")
+        @Path("/{id}")
         @Operation(
                 summary = "Delete Comment by  id",
                 responses = {
