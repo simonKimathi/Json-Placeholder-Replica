@@ -1,15 +1,13 @@
 package io.training.boundary.impl;
 
 import io.training.boundary.ToDosService;
-import io.training.entity.Comment;
-import io.training.entity.DeleteStatus;
-import io.training.entity.ToDos;
-import io.training.entity.User;
+import io.training.entity.*;
 import io.training.util.Constants;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,12 +27,28 @@ public class ToDosServiceImpl extends AbstractBeanImpl<ToDos, Long> implements T
 
     @Override
     public List<ToDos> getToDosByUserId(long id) {
-        return null;
+        TypedQuery<ToDos> postTypedQuery = getEntityManager()
+                .createQuery("select t from ToDos t where t.user.id =: id and t.deleteStatus =: deleteStatus", ToDos.class)
+                .setParameter("id", "%"+id+"%")
+                .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
+        List<ToDos> postList = postTypedQuery.getResultList();
+        if(postList.size()>0){
+            return postList;
+        }
+        return Collections.emptyList();
     }
 
     @Override
     public List<ToDos> getToDosByTitle(String title) {
-        return null;
+        TypedQuery<ToDos> postTypedQuery = getEntityManager()
+                .createQuery("select t from ToDos t where t.title LIKE : title and t.deleteStatus =: deleteStatus", ToDos.class)
+                .setParameter("title", "%"+title+"%")
+                .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
+        List<ToDos> postList = postTypedQuery.getResultList();
+        if(postList.size()>0){
+            return postList;
+        }
+        return Collections.emptyList();
     }
 
     @Override

@@ -38,7 +38,7 @@ public class PostServiceImpl extends AbstractBeanImpl<Post,Integer> implements P
     if(postList.size()>0){
       return postList;
     }
-      return null;
+      return Collections.emptyList();
   }
 
   @Override
@@ -51,7 +51,7 @@ public class PostServiceImpl extends AbstractBeanImpl<Post,Integer> implements P
     if(postList.size()>0){
       return postList;
     }
-    return null;
+    return Collections.emptyList();
   }
 
   @Override
