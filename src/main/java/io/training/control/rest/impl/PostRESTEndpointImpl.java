@@ -4,8 +4,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.Response;
+
+import io.training.boundary.CommentService;
 import io.training.boundary.PostService;
 import io.training.control.rest.PostRESTEndpoint;
+import io.training.entity.Comment;
 import io.training.entity.Post;
 import io.training.entity.User;
 
@@ -16,6 +19,9 @@ import java.util.Optional;
 public class PostRESTEndpointImpl implements PostRESTEndpoint {
   @EJB
   private PostService postService;
+
+  @EJB
+  private CommentService commentService;
 
   @Override
   public Response getPostById(int id) {
@@ -64,7 +70,7 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
 
   @Override
   public Response editPost(int id, Post post) {
-    if(id == post.getId()){
+    if(id != post.getId()){
       return Response.status(Response.Status.BAD_REQUEST).build();
     }
     Post FindPost = postService.find(id);
@@ -73,6 +79,16 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
     }
     Post editedPost = postService.edit(post);
     return Response.ok().entity(editedPost).build();
+  }
+
+  @Override
+  public Response getPostComments(int id) {
+    List<Comment> commentList = commentService.getCommentByPostId(id);
+    if(commentList.size()>0){
+      return Response.ok().entity(commentList).build();
+    }
+    return Response.status(Response.Status.NOT_FOUND).build();
+
   }
 
   @Override

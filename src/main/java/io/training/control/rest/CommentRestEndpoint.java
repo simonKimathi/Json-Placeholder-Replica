@@ -66,7 +66,6 @@ public interface CommentRestEndpoint {
         Response getCommentByNameOrEmail(@PathParam("param") String param);
 
         @GET
-        @Path("/getCommentByPostId")
         @Operation(
                 summary = "Get Comment by  Post Id",
                 responses = {

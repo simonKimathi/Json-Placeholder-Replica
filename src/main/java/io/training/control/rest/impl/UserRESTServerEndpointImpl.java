@@ -62,7 +62,7 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
 
   @Override
   public Response editUser(long id, User user) {
-    if(id == user.getId()){
+    if(id != user.getId()){
       return Response.status(Response.Status.BAD_REQUEST).build();
     }
     User FindUser = userService.find(id);

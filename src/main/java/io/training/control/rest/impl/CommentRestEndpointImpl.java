@@ -79,7 +79,7 @@ public class CommentRestEndpointImpl implements CommentRestEndpoint {
 
     @Override
     public Response editComment(int id , Comment comment) {
-        if(id == comment.getId()){
+        if(id != comment.getId()){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         Comment FindComment= CommentService.find(id);

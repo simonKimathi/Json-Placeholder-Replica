@@ -8,6 +8,7 @@ import io.training.util.Constants;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Stateless
 public class ToDosServiceImpl extends AbstractBeanImpl<ToDos, Long> implements ToDosService {
@@ -23,4 +24,13 @@ public class ToDosServiceImpl extends AbstractBeanImpl<ToDos, Long> implements T
         return entityManager;
     }
 
+    @Override
+    public List<ToDos> getToDosByUserId(long id) {
+        return null;
+    }
+
+    @Override
+    public List<ToDos> getToDosByTitle(String title) {
+        return null;
+    }
 }

@@ -25,4 +25,8 @@ public class ToDos {
 
     @Column
     private boolean completed;
+
+
+    @Column
+    private String DeleteStatus;
 }

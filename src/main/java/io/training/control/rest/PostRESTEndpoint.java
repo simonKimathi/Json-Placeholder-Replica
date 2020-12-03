@@ -108,6 +108,21 @@ public interface PostRESTEndpoint {
             })
     Response editPost(@PathParam("id") int id, Post post);
 
+    @PUT
+    @Path("/{id}/comments")
+    @Operation(
+            summary = "Edit Post",
+            responses = {
+                    @ApiResponse(
+                            description = "The Post",
+                            content =
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Post.class))),
+                    @ApiResponse(responseCode = "400", description = "Error")
+            })
+    Response getPostComments(@PathParam("id") int id);
+
     @DELETE
     @Path("/{id}")
     @Operation(
