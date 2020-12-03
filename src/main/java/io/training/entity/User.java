@@ -1,12 +1,8 @@
 package io.training.entity;
 
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,7 +37,8 @@ public class User {
   private Company company;
 
   @Column
-  private String DeleteStatus;
+  @Enumerated(EnumType.STRING)
+  private DeleteStatus deleteStatus;
 
 
 

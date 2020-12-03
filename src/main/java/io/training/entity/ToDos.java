@@ -28,5 +28,6 @@ public class ToDos {
 
 
     @Column
-    private String DeleteStatus;
+    @Enumerated(EnumType.STRING)
+    private DeleteStatus deleteStatus;
 }

@@ -27,6 +27,7 @@ public class Post {
   private String body;
 
   @Column
-  private String DeleteStatus;
+  @Enumerated(EnumType.STRING)
+  private DeleteStatus deleteStatus;
 
 }

@@ -2,6 +2,7 @@ package io.training.boundary.impl;
 
 import io.training.boundary.CommentService;
 import io.training.entity.Comment;
+import io.training.entity.DeleteStatus;
 import io.training.entity.Post;
 import io.training.util.Constants;
 
@@ -9,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -29,8 +31,9 @@ public class CommentServiceImpl extends AbstractBeanImpl<Comment,Integer> implem
     @Override
     public List<Comment> getCommentByNameOrEmail(String nameOrEmail) {
         TypedQuery<Comment> commentTypedQuery = getEntityManager()
-                .createQuery("select c from Comment c where c.name LIKE : nameOrEmail or c.email LIKE : nameOrEmail", Comment.class)
-                .setParameter("nameOrEmail", "%"+nameOrEmail+"%");
+                .createQuery("select c from Comment c where c.name LIKE : nameOrEmail or c.email LIKE : nameOrEmail and c.deleteStatus =: deleteStatus", Comment.class)
+                .setParameter("nameOrEmail", "%"+nameOrEmail+"%")
+                .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
         List<Comment> commentList = commentTypedQuery.getResultList();
         if(commentList.size()>0){
             return commentList;
@@ -41,12 +44,43 @@ public class CommentServiceImpl extends AbstractBeanImpl<Comment,Integer> implem
     @Override
     public List<Comment> getCommentByPostId(int userId) {
         TypedQuery<Comment> commentTypedQuery = getEntityManager()
-                .createQuery("select c from Comment c where c.post.id =: userId", Comment.class)
-                .setParameter("userId", userId);
+                .createQuery("select c from Comment c where c.post.id =: userId and c.deleteStatus =: deleteStatus", Comment.class)
+                .setParameter("userId", userId)
+                .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
         List<Comment> commentList = commentTypedQuery.getResultList();
         if(commentList.size()>0){
             return commentList;
         }
         return null;
+    }
+
+
+    @Override
+    public boolean remove(Comment entity) {
+        entity.setDeleteStatus(DeleteStatus.DELETED);
+        Comment edit= edit(entity);
+        return edit != null;
+    }
+
+    @Override
+    public Comment find(Integer id) {
+        List<Comment> resultList = getEntityManager().createQuery("select c from Comment c where c.deleteStatus =: deleteStatus and c.id =: id ",Comment.class)
+                .setParameter("deleteStatus", DeleteStatus.AVAILABLE)
+                .setParameter("id",id)
+                .getResultList();
+        if (resultList.size()>0 && resultList != null){
+            return resultList.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Comment> findAll() {
+        List<Comment> resultList = getEntityManager().createQuery("select c from Comment c where c.deleteStatus =: deleteStatus",Comment.class)
+                .setParameter("deleteStatus", DeleteStatus.AVAILABLE).getResultList();
+        if (resultList.size()>0 && resultList != null){
+            return resultList;
+        }
+        return Collections.emptyList();
     }
 }

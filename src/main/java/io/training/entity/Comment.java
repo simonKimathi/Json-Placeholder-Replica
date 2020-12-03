@@ -29,6 +29,7 @@ public class Comment {
     private String body;
 
     @Column
-    private String DeleteStatus;
+    @Enumerated(EnumType.STRING)
+    private DeleteStatus deleteStatus;
 
 }
