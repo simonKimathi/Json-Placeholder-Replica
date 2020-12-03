@@ -49,7 +49,7 @@ public interface ToDosRESTEndpoint {
     @GET
     @Path("/getToDosByUserId/{id}")
     @Operation(
-            summary = "Get ToDos by  email",
+            summary = "Get ToDos by  user id",
             responses = {
                     @ApiResponse(
                             description = "The ToDos",

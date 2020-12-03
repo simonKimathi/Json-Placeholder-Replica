@@ -11,12 +11,12 @@ import javax.persistence.*;
 @ToString
 @EqualsAndHashCode
 public class Comment {
-    @Column(name="POST_ID")
+    @Column(name="COMMENT_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER ,cascade = {CascadeType.PERSIST}  )
+    @ManyToOne(fetch = FetchType.EAGER  )
     private Post post;
 
     @Column
@@ -28,7 +28,7 @@ public class Comment {
     @Column
     private String body;
 
-    @Column
+    @Column(length = 255, columnDefinition = "varchar(255) default 'AVAILABLE'")
     @Enumerated(EnumType.STRING)
     private DeleteStatus deleteStatus;
 

@@ -29,7 +29,7 @@ public class ToDosServiceImpl extends AbstractBeanImpl<ToDos, Long> implements T
     public List<ToDos> getToDosByUserId(long id) {
         TypedQuery<ToDos> postTypedQuery = getEntityManager()
                 .createQuery("select t from ToDos t where t.user.id =: id and t.deleteStatus =: deleteStatus", ToDos.class)
-                .setParameter("id", "%"+id+"%")
+                .setParameter("id", id)
                 .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
         List<ToDos> postList = postTypedQuery.getResultList();
         if(postList.size()>0){

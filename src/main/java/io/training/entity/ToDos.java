@@ -12,12 +12,12 @@ import javax.persistence.*;
 @EqualsAndHashCode
 public class ToDos {
 
-    @Column(name="USER_ID")
+    @Column(name="TODOS_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER)
     User user;
 
     @Column
@@ -27,7 +27,7 @@ public class ToDos {
     private boolean completed;
 
 
-    @Column
+    @Column(length = 255, columnDefinition = "varchar(255) default 'AVAILABLE'")
     @Enumerated(EnumType.STRING)
     private DeleteStatus deleteStatus;
 }

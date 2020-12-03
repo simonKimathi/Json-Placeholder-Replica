@@ -36,7 +36,7 @@ public class User {
   @Embedded
   private Company company;
 
-  @Column
+  @Column(length = 255, columnDefinition = "varchar(255) default 'AVAILABLE'")
   @Enumerated(EnumType.STRING)
   private DeleteStatus deleteStatus;
 
