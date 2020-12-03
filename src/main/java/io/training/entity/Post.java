@@ -19,7 +19,7 @@ public class Post {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
-  @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST})
   User user;
   @Column
   private String title;

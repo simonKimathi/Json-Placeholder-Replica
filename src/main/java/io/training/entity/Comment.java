@@ -16,7 +16,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.ALL  )
+    @ManyToOne(fetch = FetchType.EAGER ,cascade = {CascadeType.PERSIST}  )
     private Post post;
 
     @Column
