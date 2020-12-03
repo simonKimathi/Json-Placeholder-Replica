@@ -40,6 +40,9 @@ public class User {
   @Embedded
   private Company company;
 
+  @Column
+  private String DeleteStatus;
+
 
 
 }

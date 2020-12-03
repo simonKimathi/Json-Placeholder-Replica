@@ -26,4 +26,7 @@ public class Post {
   @Column
   private String body;
 
+  @Column
+  private String DeleteStatus;
+
 }

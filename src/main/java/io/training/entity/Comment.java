@@ -28,4 +28,7 @@ public class Comment {
     @Column
     private String body;
 
+    @Column
+    private String DeleteStatus;
+
 }

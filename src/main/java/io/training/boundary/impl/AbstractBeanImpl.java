@@ -1,5 +1,6 @@
 package io.training.boundary.impl;
 
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -43,7 +44,12 @@ public abstract class AbstractBeanImpl<T, V> implements AbstractBean<T, V> {
   public List<T> findAll() {
     CriteriaQuery<T> cq = getEntityManager().getCriteriaBuilder().createQuery(entityClass);
     cq.select(cq.from(entityClass));
-    return getEntityManager().createQuery(cq).getResultList();
+    List<T> entityLists = getEntityManager().createQuery(cq).getResultList();
+    if(entityLists.size()>0){
+      return entityLists;
+    }
+    else
+      return Collections.emptyList();
   }
 
   @Override
