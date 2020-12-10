@@ -18,7 +18,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @JsonIgnoreProperties({"comments"})
 public class Post {
-  @Column(name="POST_ID")
+  @Column
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
