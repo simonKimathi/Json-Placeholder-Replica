@@ -45,6 +45,7 @@ public class Album extends BaseEntity {
     public void setUserById(Long userId) {
         user = User.fromId(userId);
     }
+
     public static Album fromId(Long albumId) {
         Album album = new Album();
         album.setId(albumId);

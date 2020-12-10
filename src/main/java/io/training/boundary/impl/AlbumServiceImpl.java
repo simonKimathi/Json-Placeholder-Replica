@@ -2,7 +2,6 @@ package io.training.boundary.impl;
 
 import io.training.boundary.AlbumService;
 import io.training.entity.Album;
-import io.training.entity.Comment;
 import io.training.util.Constants;
 import io.training.util.DeleteStatus;
 
