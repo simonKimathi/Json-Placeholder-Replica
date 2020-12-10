@@ -40,7 +40,8 @@ public interface PostRESTEndpoint {
 
             })
     @GET
-    Response listAllPosts(@QueryParam("userId") long userId);
+    Response listAllPosts(@QueryParam("userId") long userId,
+                          @QueryParam("title") String title);
 
     @Operation(
             summary = "Create post",

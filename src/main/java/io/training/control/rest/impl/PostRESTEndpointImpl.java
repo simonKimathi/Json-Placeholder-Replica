@@ -9,7 +9,10 @@ import javax.ejb.Stateless;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Stateless
 public class PostRESTEndpointImpl implements PostRESTEndpoint {
@@ -17,9 +20,22 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
   private PostService postService;
 
   @Override
-  public Response listAllPosts(long userId) {
-    return userId > 0 ? Response.ok(postService.findAllByUserId(userId)).build()
-            : Response.ok(postService.findAll()).build();
+  public Response listAllPosts(long userId, String title) {
+    List<Post> postList = postService.findAll();
+    if(userId != 0.0f){
+      return Response.ok().entity(postList
+              .stream()
+              .filter((post) -> post.getUser().getId().equals(userId)).collect(Collectors.toList()))
+              .build();
+    }
+    if(title != null){
+      return Response.ok().entity(postList
+              .stream()
+              .filter((post) -> post.getTitle().equals(title)).collect(Collectors.toList()))
+              .build();
+    }
+    return postList.size() > 0 ? Response.ok(postService.findAll()).build()
+            : Response.status(Response.Status.NO_CONTENT).build();
 
   }
 

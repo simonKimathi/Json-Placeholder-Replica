@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @Stateless
-public class CommentServiceImpl extends CrudAbstractBeanImpl<Comment,Integer> implements CommentService {
+public class CommentServiceImpl extends CrudAbstractBeanImpl<Comment,Long> implements CommentService {
     @PersistenceContext(name = Constants.PERSISTENCE_UNIT_NAME)
     private EntityManager entityManager;
 
@@ -50,6 +50,19 @@ public class CommentServiceImpl extends CrudAbstractBeanImpl<Comment,Integer> im
                         )
                 );
         return getEntityManager().createQuery(query).getResultList();
+    }
+
+    @Override
+    public List<Comment> getCommentByNameOrEmail(String nameOrEmail) {
+        TypedQuery<Comment> commentTypedQuery = getEntityManager()
+                .createQuery("select c from Comment c where c.name LIKE : nameOrEmail or c.email LIKE : nameOrEmail and c.deleteStatus =: deleteStatus", Comment.class)
+                .setParameter("nameOrEmail", "%"+nameOrEmail+"%")
+                .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
+        List<Comment> commentList = commentTypedQuery.getResultList();
+        if(commentList.size()>0){
+            return commentList;
+        }
+        return null;
     }
 
 }

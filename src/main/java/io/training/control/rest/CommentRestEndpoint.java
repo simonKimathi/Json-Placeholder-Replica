@@ -9,8 +9,11 @@ import io.training.control.rest.impl.Error;
 import io.training.entity.Comment;
 import io.training.entity.Post;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -34,7 +37,7 @@ public interface CommentRestEndpoint {
                                         schema = @Schema(implementation = Comment.class))),
                         @ApiResponse(responseCode = "400", description = "Comment not found")
                 })
-        Response getCommentById(@PathParam("id") int id);
+        Response getCommentById(@PathParam("id") long id);
 
         @GET
         @Operation(
@@ -48,36 +51,9 @@ public interface CommentRestEndpoint {
                                         schema = @Schema(implementation = Comment.class))),
                         @ApiResponse(responseCode = "400", description = "Comment not found")
                 })
-        Response getAllComments();
+        Response getAllComments(@QueryParam("postId") long postId,
+                                @QueryParam("nameOrEmail") String nameOrEmail);
 
-        @GET
-        @Path("/getCommentByNameOrEmail/{param}")
-        @Operation(
-                summary = "Get Comment by  User Id",
-                responses = {
-                        @ApiResponse(
-                                description = "The Comment",
-                                content =
-                                @Content(
-                                        mediaType = "application/json",
-                                        schema = @Schema(implementation = Comment.class))),
-                        @ApiResponse(responseCode = "400", description = "Comment not found")
-                })
-        Response getCommentByNameOrEmail(@PathParam("param") String param);
-
-        @GET
-        @Operation(
-                summary = "Get Comment by  Post Id",
-                responses = {
-                        @ApiResponse(
-                                description = "The Comment",
-                                content =
-                                @Content(
-                                        mediaType = "application/json",
-                                        schema = @Schema(implementation = Comment.class))),
-                        @ApiResponse(responseCode = "400", description = "Comment not found")
-                })
-        Response getCommentByPostId(@QueryParam("Id") int Id);
 
 
         @POST
@@ -92,7 +68,8 @@ public interface CommentRestEndpoint {
                                         schema = @Schema(implementation = Comment.class))),
                         @ApiResponse(responseCode = "400", description = "Error")
                 })
-        Response createComment(Comment comment);
+        Response createComment(@Valid Comment comment,
+                               @Context UriInfo uriInfo);
 
         @PUT
         @Path("/{id}")
@@ -107,7 +84,8 @@ public interface CommentRestEndpoint {
                                         schema = @Schema(implementation = Comment.class))),
                         @ApiResponse(responseCode = "400", description = "Error")
                 })
-        Response editComment(@PathParam("id") int id , Comment comment);
+        Response editComment(@PathParam("id") long id ,@Valid Comment comment,
+                             @Context UriInfo uriInfo);
 
         @DELETE
         @Path("/{id}")
@@ -122,6 +100,6 @@ public interface CommentRestEndpoint {
                                         schema = @Schema(implementation = Comment.class))),
                         @ApiResponse(responseCode = "400", description = "Comment not found")
                 })
-        Response deleteComment(@PathParam("id") int id);
+        Response deleteComment(@PathParam("id") long id);
 }
 
