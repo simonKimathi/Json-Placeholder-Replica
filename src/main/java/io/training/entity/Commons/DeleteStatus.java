@@ -1,4 +1,4 @@
-package io.training.util;
+package io.training.entity.Commons;
 
 public enum DeleteStatus {
     AVAILABLE,

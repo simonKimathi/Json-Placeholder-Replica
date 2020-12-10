@@ -3,7 +3,7 @@ package io.training.boundary.impl;
 import io.training.boundary.CommentService;
 import io.training.entity.Comment;
 import io.training.util.Constants;
-import io.training.util.DeleteStatus;
+import io.training.entity.Commons.DeleteStatus;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -12,7 +12,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.Collections;
 import java.util.List;
 
 

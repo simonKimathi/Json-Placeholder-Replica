@@ -2,7 +2,7 @@ package io.training.boundary.impl;
 
 import io.training.boundary.ToDosService;
 import io.training.entity.*;
-import io.training.util.DeleteStatus;
+import io.training.entity.Commons.DeleteStatus;
 import io.training.util.Constants;
 
 import javax.ejb.Stateless;

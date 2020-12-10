@@ -1,6 +1,5 @@
-package io.training.util;
+package io.training.entity.Commons;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,12 +10,12 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Getter
 @Setter
-public abstract class BaseEntity{
+public abstract class BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long id;
+    private long id;
 
     @Column
     @Enumerated(EnumType.STRING)

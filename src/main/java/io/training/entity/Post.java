@@ -5,7 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.*;
-import io.training.util.BaseEntity;
+import io.training.entity.Commons.BaseEntity;
 import lombok.*;
 
 import java.util.Set;
@@ -15,7 +15,6 @@ import java.util.Set;
 @Setter
 @Getter
 @ToString(exclude = {"user"})
-@EqualsAndHashCode
 @JsonIgnoreProperties({"comments","deleteStatus","createdOn","updatedOn"})
 public class Post extends BaseEntity {
 
@@ -32,6 +31,7 @@ public class Post extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "user_id" , nullable = false)
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  @JsonIdentityReference(alwaysAsId = true)
   @JsonProperty("userId")
   @Setter(AccessLevel.NONE)
   private User user;

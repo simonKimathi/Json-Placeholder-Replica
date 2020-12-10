@@ -1,7 +1,7 @@
 package io.training.entity;
 
 import com.fasterxml.jackson.annotation.*;
-import io.training.util.BaseEntity;
+import io.training.entity.Commons.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

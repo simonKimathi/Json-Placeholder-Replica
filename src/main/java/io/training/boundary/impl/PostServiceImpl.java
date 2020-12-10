@@ -3,17 +3,15 @@ package io.training.boundary.impl;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import io.training.boundary.PostService;
-import io.training.util.DeleteStatus;
+import io.training.entity.Commons.DeleteStatus;
 import io.training.entity.Post;
 import io.training.util.Constants;
 
-import java.util.Collections;
 import java.util.List;
 
 @Stateless

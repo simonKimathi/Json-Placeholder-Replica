@@ -24,7 +24,7 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
     if(userId != 0.0f){
       return Response.ok().entity(postList
               .stream()
-              .filter((post) -> post.getUser().getId().equals(userId)).collect(Collectors.toList()))
+              .filter((post) -> post.getUser().getId()==(userId)).collect(Collectors.toList()))
               .build();
     }
     if(title != null){

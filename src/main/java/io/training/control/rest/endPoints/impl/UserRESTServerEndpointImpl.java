@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 import io.training.boundary.UserService;
 import io.training.control.rest.endPoints.UserRESTServerEndpoint;
 import io.training.entity.User;
-import io.training.util.DeleteStatus;
+import io.training.entity.Commons.DeleteStatus;
 
 import java.net.URI;
 import javax.ws.rs.core.UriInfo;
@@ -60,9 +60,10 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
 
   @Override
   public Response createUser(User user, UriInfo uriInfo) {
-    /*if (userService.existsById(user.getId())) {
+    if (userService.existsById(user.getId())) {
       return Response.status(Response.Status.CONFLICT).build();
-    }*/
+    }
+
     User savedUser = userService.save(user);
     URI location = uriInfo.getBaseUriBuilder()
             .path(UserRESTServerEndpoint.class)

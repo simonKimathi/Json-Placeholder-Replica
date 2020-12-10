@@ -1,7 +1,7 @@
 package io.training.entity;
 
 import com.fasterxml.jackson.annotation.*;
-import io.training.util.BaseEntity;
+import io.training.entity.Commons.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,7 +9,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table
 @ToString(exclude = {"album"})
 @Getter
 @Setter
