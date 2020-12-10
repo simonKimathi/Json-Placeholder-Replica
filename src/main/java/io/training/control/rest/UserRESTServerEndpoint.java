@@ -1,15 +1,20 @@
 package io.training.control.rest;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.training.entity.User;
+
+import javax.validation.Valid;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/users")
 @Consumes(APPLICATION_JSON)
@@ -27,7 +32,7 @@ public interface UserRESTServerEndpoint {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = User.class))),
-                    @ApiResponse(responseCode = "400", description = "User not found")
+                    @ApiResponse(responseCode = "404", description = "User not found")
             })
     Response retrieveUser(@PathParam("id") long id);
 
@@ -36,45 +41,20 @@ public interface UserRESTServerEndpoint {
             summary = "Get all Users",
             responses = {
                     @ApiResponse(
-                            description = "The User",
-                            content =
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = User.class))),
-                    @ApiResponse(responseCode = "400", description = "User not found")
+                            description = "List containing all the User",
+                            content = @Content(
+                                    array = @ArraySchema(
+                                            schema = @Schema(
+                                                    implementation = User.class
+                                            )
+                                    )
+                            )
+                    ),
+                    @ApiResponse(responseCode = "404", description = "User not found")
             })
-    Response getAllUsers(@QueryParam("phone") String phone);
-
-    @GET
-    @Path("/getUserByEmail/{email}")
-    @Operation(
-            summary = "Get user by  email",
-            responses = {
-                    @ApiResponse(
-                            description = "The User",
-                            content =
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = User.class))),
-                    @ApiResponse(responseCode = "400", description = "User not found")
-            })
-    Response getUserByEmail(@PathParam("email") String email);
-
-    @GET
-    @Path("/getUserByUsername")
-    @Operation(
-            summary = "Get user by  username",
-            responses = {
-                    @ApiResponse(
-                            description = "The User",
-                            content =
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = User.class))),
-                    @ApiResponse(responseCode = "400", description = "User not found")
-            })
-    Response getUserByUsername(@QueryParam("username") String username);
-
+    Response getAllUsers(@QueryParam("phone") String phone,
+                         @QueryParam("username") String username,
+                         @QueryParam("email") String email);
 
     @POST
     @Operation(
@@ -86,9 +66,11 @@ public interface UserRESTServerEndpoint {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = User.class))),
-                    @ApiResponse(responseCode = "400", description = "Error")
-            })
-    Response createUser(User user);
+                    @ApiResponse(responseCode = "400", description = "Bad request")
+            }
+    )
+    Response createUser(@Valid User user,
+                        @Context UriInfo uriInfo);
 
     @PUT
     @Path("/{id}")
@@ -101,9 +83,23 @@ public interface UserRESTServerEndpoint {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = User.class))),
-                    @ApiResponse(responseCode = "400", description = "Error")
-            })
-    Response editUser(@PathParam("id") long id, User user);
+                    @ApiResponse(responseCode = "400", description = "Error"),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad request"
+                    ),
+                    @ApiResponse(
+                            responseCode = "409",
+                            description = "User already exists"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found"
+                    )
+            }
+    )
+    Response updateUser(@PathParam("id") long id, @Valid User user,
+                        @Context UriInfo uriInfo);
 
     @DELETE
     @Path("/{id}")

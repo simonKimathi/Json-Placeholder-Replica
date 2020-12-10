@@ -7,6 +7,8 @@ import io.training.boundary.UserService;
 import io.training.control.rest.UserRESTServerEndpoint;
 import io.training.entity.User;
 
+import java.net.URI;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,21 +19,33 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
 
   @Override
   public Response retrieveUser(long id) {
-    User user = userService.find(id);
-    if(user==null){
-      return Response.status(Response.Status.NOT_FOUND).build();
-    }
-    return Response.ok().entity(user).build();
+    Optional<User> optionalUser = userService.findById(id);
+    return optionalUser.isPresent() ?
+            Response.ok().entity(optionalUser.get()).build()
+            :
+            Response.status(Response.Status.NOT_FOUND).build();
   }
 
   @Override
-  public Response getAllUsers(String phone) {
+  public Response getAllUsers(String phone,String username,String email) {
 
     List<User> usersList = userService.findAll();
     if(phone != null){
       return Response.ok().entity(usersList
               .stream()
               .filter((user) -> user.getPhone().equals(phone)).collect(Collectors.toList()))
+              .build();
+    }
+    if(username != null){
+      return Response.ok().entity(usersList
+              .stream()
+              .filter((user) -> user.getUsername().equals(username)).collect(Collectors.toList()))
+              .build();
+    }
+    if(email != null){
+      return Response.ok().entity(usersList
+              .stream()
+              .filter((user) -> user.getEmail().equals(email)).collect(Collectors.toList()))
               .build();
     }
     if(usersList.size()>0){
@@ -41,35 +55,22 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
   }
 
   @Override
-  public Response getUserByEmail(String email) {
-    Optional<User> user = userService.getUserByEmail(email);
-    if(user.isPresent()){
-      return Response.ok().entity(user.get()).build();
+  public Response createUser(User user, UriInfo uriInfo) {
+    if (userService.existsById(user.getId())) {
+      return Response.status(Response.Status.CONFLICT).build();
     }
-    return Response.status(Response.Status.NOT_FOUND).build();
-  }
+    User savedUser = userService.save(user);
+    URI location = uriInfo.getBaseUriBuilder()
+            .path(UserRESTServerEndpoint.class)
+            .path(String.valueOf(savedUser.getId()))
+            .build();
+    return Response.created(location).entity(savedUser).build();
 
-  @Override
-  public Response getUserByUsername(String username) {
-    Optional<User> user = userService.getUserByUsername(username);
-    if(user.isPresent()){
-      return Response.ok().entity(user.get()).build();
-    }
-    return Response.status(Response.Status.NOT_FOUND).build();
-  }
-
-  @Override
-  public Response createUser(User user) {
-    User createdUser = userService.save(user);
-    if (createdUser==null){
-      return Response.status(Response.Status.BAD_REQUEST).build();
-    }
-    return Response.ok().entity(createdUser).build();
   }
 
 
   @Override
-  public Response editUser(long id, User user) {
+  public Response updateUser(long id, User user, UriInfo uriInfo) {
     if(id != user.getId()){
       return Response.status(Response.Status.BAD_REQUEST).build();
     }
@@ -78,18 +79,22 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
     User editedUser = userService.update(user);
-    return Response.ok().entity(editedUser).build();
+    URI location = uriInfo.getBaseUriBuilder()
+            .path(UserRESTServerEndpoint.class)
+            .path(String.valueOf(editedUser.getId()))
+            .build();
+    return Response.created(location).entity(editedUser).build();
+
   }
 
 
 
   @Override
   public Response deleteUser(long id) {
-    User userDeleted = userService.find(id);
-    if(userDeleted == null){
+    if(!userService.existsById(id)){
       return Response.status(Response.Status.NOT_FOUND).build();
-
     }
-    return Response.ok().entity(userService.delete(userDeleted)).build();
+    userService.deleteById(id);
+    return Response.ok().build();
   }
 }
