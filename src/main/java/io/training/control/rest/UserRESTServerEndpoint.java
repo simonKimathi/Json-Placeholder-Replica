@@ -43,7 +43,7 @@ public interface UserRESTServerEndpoint {
                                     schema = @Schema(implementation = User.class))),
                     @ApiResponse(responseCode = "400", description = "User not found")
             })
-    Response getAllUsers();
+    Response getAllUsers(@QueryParam("phone") String phone);
 
     @GET
     @Path("/getUserByEmail/{email}")

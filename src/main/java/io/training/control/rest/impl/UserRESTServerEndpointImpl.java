@@ -7,8 +7,10 @@ import io.training.boundary.UserService;
 import io.training.control.rest.UserRESTServerEndpoint;
 import io.training.entity.User;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Stateless
 public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
@@ -24,10 +26,17 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
   }
 
   @Override
-  public Response getAllUsers() {
-    List<User> user = userService.findAll();
-    if(user.size()>0){
-      return Response.ok().entity(user).build();
+  public Response getAllUsers(String phone) {
+
+    List<User> usersList = userService.findAll();
+    if(phone != null){
+      return Response.ok().entity(usersList
+              .stream()
+              .filter((user) -> user.getPhone().equals(phone)).collect(Collectors.toList()))
+              .build();
+    }
+    if(usersList.size()>0){
+      return Response.ok().entity(usersList).build();
     }
     return Response.status(Response.Status.NOT_FOUND).build();
   }
