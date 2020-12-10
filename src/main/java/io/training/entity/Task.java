@@ -18,7 +18,7 @@ import io.training.util.StringHelper;
 @Entity
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="TASK_ID")
     private Long id;
 

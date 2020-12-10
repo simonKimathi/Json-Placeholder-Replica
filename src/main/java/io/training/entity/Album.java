@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import io.training.entity.commonClasses.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,11 +29,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Album {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private long id;
+public class Album extends BaseEntity {
 
     @Column
     @NotEmpty
@@ -53,7 +50,7 @@ public class Album {
     }
     public static Album fromId(Long albumId) {
         Album album = new Album();
-        album.id = albumId;
+        album.setId(albumId);
         return album;
     }
 }

@@ -1,6 +1,7 @@
 package io.training.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import io.training.entity.commonClasses.BaseEntity;
 import io.training.entity.commonClasses.DeleteStatus;
 import lombok.*;
 
@@ -14,11 +15,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @ToString(exclude = {"post"})
 @EqualsAndHashCode
-public class Comment {
-    @Column
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Comment extends BaseEntity {
 
     @Column
     @NotNull
@@ -34,10 +31,6 @@ public class Comment {
     @NotNull
     @NotEmpty
     private String body;
-
-    @Column
-    @Enumerated(EnumType.STRING)
-    private DeleteStatus deleteStatus;
 
     @ManyToOne(fetch = FetchType.LAZY , optional = false)
     @JoinColumn(name = "post_id", nullable = false)

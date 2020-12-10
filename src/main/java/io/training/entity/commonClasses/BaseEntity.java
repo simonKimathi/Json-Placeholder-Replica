@@ -1,5 +1,7 @@
 package io.training.entity.commonClasses;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -7,33 +9,44 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
+@Getter
+@Setter
 public abstract class BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private int id;
+    private long id;
 
-    @Column(name = "time_created")
-    @CreationTimestamp
-    private LocalDateTime timeCreated;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private DeleteStatus deleteStatus;
 
-    public int getId() {
-        return id;
+
+    @Column(name = "created_on")
+    private LocalDateTime createdOn;
+
+/*    @Column(name = "created_by")
+    private String createdBy;*/
+
+    @Column(name = "updated_on")
+    private LocalDateTime updatedOn;
+
+/*    @Column(name = "updated_by")
+    private String updatedBy;*/
+
+    @PrePersist
+    public void prePersist() {
+        createdOn = LocalDateTime.now();
+        setDeleteStatus(DeleteStatus.AVAILABLE);
+       // createdBy = LoggedUser.get();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @PreUpdate
+    public void preUpdate() {
+        updatedOn = LocalDateTime.now();
+        //updatedBy = LoggedUser.get();
     }
 
-    public LocalDateTime getTimeCreated() {
-        return timeCreated;
-    }
 
-    public void setTimeCreated(LocalDateTime timeCreated) {
-/*
-        String date= String.valueOf(timeCreated);
-        String timeString=date.substring(0,10);*/
-        this.timeCreated = timeCreated;
-    }
 }

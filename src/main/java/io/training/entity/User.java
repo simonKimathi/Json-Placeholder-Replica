@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.training.entity.commonClasses.BaseEntity;
 import io.training.entity.commonClasses.DeleteStatus;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,12 +21,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @JsonIgnoreProperties({"posts"})
-public class User {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column
-  private long id;
+public class User extends BaseEntity {
 
   @Column
   @NotEmpty
@@ -56,17 +52,13 @@ public class User {
   @Embedded
   private Company company;
 
-  @Column
-  @Enumerated(EnumType.STRING)
-  private DeleteStatus deleteStatus;
-
   @OneToMany(mappedBy ="user", fetch = FetchType.LAZY,
           cascade = CascadeType.ALL,orphanRemoval = true)
   private Set<Post> posts;
 
   public static User fromId(long userId){
     User user=new User();
-    user.id=userId;
+    user.setId(userId);
     return user;
   }
 

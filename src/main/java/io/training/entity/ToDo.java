@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import io.training.entity.commonClasses.BaseEntity;
 import io.training.entity.commonClasses.DeleteStatus;
 import lombok.*;
 
@@ -17,15 +18,13 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ToDo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private long id;
+public class ToDo extends BaseEntity {
+
     @Column
     @NotEmpty
     @NotNull
     private String title;
+
     @Column
     private boolean completed;
 

@@ -5,6 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.*;
+import io.training.entity.commonClasses.BaseEntity;
 import io.training.entity.commonClasses.DeleteStatus;
 import lombok.*;
 
@@ -17,11 +18,7 @@ import java.util.Set;
 @ToString(exclude = {"user"})
 @EqualsAndHashCode
 @JsonIgnoreProperties({"comments"})
-public class Post {
-  @Column
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+public class Post extends BaseEntity {
 
   @Column
   @NotEmpty
@@ -32,12 +29,6 @@ public class Post {
   @NotEmpty
   @NotNull
   private String body;
-
-  @Column
-  @Enumerated(EnumType.STRING)
-  private DeleteStatus deleteStatus;
-
-
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "user_id" , nullable = false)
