@@ -1,7 +1,7 @@
-package io.training.boundary.impl;
+package io.training.control.rest.endPoints.impl;
 
-import io.training.boundary.PhotoEndpoint;
 import io.training.boundary.PhotoService;
+import io.training.control.rest.endPoints.PhotoRestEndpoint;
 import io.training.entity.Photo;
 
 import javax.ejb.EJB;
@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.Optional;
 
 @Stateless
-public class PhotoEndpointImpl implements PhotoEndpoint {
+public class PhotoEndpointImpl implements PhotoRestEndpoint {
     @EJB
     private PhotoService photoService;
     @Override
@@ -29,7 +29,7 @@ public class PhotoEndpointImpl implements PhotoEndpoint {
         }
         Photo savedPhoto = photoService.save(photo);
         URI location = uriInfo.getBaseUriBuilder()
-                .path(PhotoEndpoint.class)
+                .path(PhotoRestEndpoint.class)
                 .path(String.valueOf(savedPhoto.getId()))
                 .build();
         return Response.created(location).entity(savedPhoto).build();
@@ -52,7 +52,7 @@ public class PhotoEndpointImpl implements PhotoEndpoint {
         }
         Photo updatedPhoto = photoService.update(photo);
         URI location = uriInfo.getBaseUriBuilder()
-                .path(PhotoEndpoint.class)
+                .path(PhotoRestEndpoint.class)
                 .path(String.valueOf(updatedPhoto.getId()))
                 .build();
         return Response.created(location).entity(updatedPhoto).build();

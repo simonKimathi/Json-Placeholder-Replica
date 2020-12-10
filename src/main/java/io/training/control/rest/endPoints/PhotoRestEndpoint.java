@@ -1,4 +1,4 @@
-package io.training.boundary;
+package io.training.control.rest.endPoints;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -20,7 +20,7 @@ import javax.ws.rs.core.UriInfo;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 
-public interface PhotoEndpoint {
+public interface PhotoRestEndpoint {
     @Operation(
             summary = "Get all photos",
             responses = {
