@@ -2,7 +2,7 @@ package io.training.boundary.impl;
 
 import io.training.boundary.ToDosService;
 import io.training.entity.*;
-import io.training.entity.commonClasses.DeleteStatus;
+import io.training.util.DeleteStatus;
 import io.training.util.Constants;
 
 import javax.ejb.Stateless;
@@ -15,7 +15,7 @@ import java.util.List;
 @Stateless
 public class ToDosServiceImpl extends CrudAbstractBeanImpl<ToDo, Long> implements ToDosService {
 
-    @PersistenceContext(name = Constants.ENTITY_MANAGER_NAME)
+    @PersistenceContext(name = Constants.PERSISTENCE_UNIT_NAME)
     private EntityManager entityManager;
     public ToDosServiceImpl() {
         super(ToDo.class);

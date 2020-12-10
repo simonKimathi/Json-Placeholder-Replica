@@ -10,7 +10,7 @@ import io.training.util.Constants;
 @Stateless
 public class ProjectTaskServiceImpl extends CrudAbstractBeanImpl<Project, Long> implements ProjectService {
 
-  @PersistenceContext(name = Constants.ENTITY_MANAGER_NAME)
+  @PersistenceContext(name = Constants.PERSISTENCE_UNIT_NAME)
   private EntityManager entityManager;
 
   public ProjectTaskServiceImpl() {

@@ -2,8 +2,8 @@ package io.training.boundary.impl;
 
 import io.training.boundary.CommentService;
 import io.training.entity.Comment;
-import io.training.entity.commonClasses.DeleteStatus;
 import io.training.util.Constants;
+import io.training.util.DeleteStatus;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Stateless
 public class CommentServiceImpl extends CrudAbstractBeanImpl<Comment,Integer> implements CommentService {
-    @PersistenceContext(name = Constants.ENTITY_MANAGER_NAME)
+    @PersistenceContext(name = Constants.PERSISTENCE_UNIT_NAME)
     private EntityManager entityManager;
 
     public CommentServiceImpl() {

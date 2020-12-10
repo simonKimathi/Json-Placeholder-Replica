@@ -1,8 +1,7 @@
 package io.training.entity;
 
 import com.fasterxml.jackson.annotation.*;
-import io.training.entity.commonClasses.BaseEntity;
-import io.training.entity.commonClasses.DeleteStatus;
+import io.training.util.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;

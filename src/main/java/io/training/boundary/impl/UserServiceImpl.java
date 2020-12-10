@@ -6,7 +6,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import io.training.boundary.UserService;
-import io.training.entity.commonClasses.DeleteStatus;
+import io.training.util.DeleteStatus;
 import io.training.entity.User;
 import io.training.util.Constants;
 
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Stateless
 public class UserServiceImpl extends CrudAbstractBeanImpl<User, Long> implements UserService {
-  @PersistenceContext(name = Constants.ENTITY_MANAGER_NAME)
+  @PersistenceContext(name = Constants.PERSISTENCE_UNIT_NAME)
   private EntityManager entityManager;
   public UserServiceImpl() {
     super(User.class);

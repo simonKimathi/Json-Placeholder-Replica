@@ -6,7 +6,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import io.training.boundary.PostService;
-import io.training.entity.commonClasses.DeleteStatus;
+import io.training.util.DeleteStatus;
 import io.training.entity.Post;
 import io.training.util.Constants;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Stateless
 public class PostServiceImpl extends CrudAbstractBeanImpl<Post,Integer> implements PostService {
-  @PersistenceContext(name = Constants.ENTITY_MANAGER_NAME)
+  @PersistenceContext(name = Constants.PERSISTENCE_UNIT_NAME)
   private EntityManager entityManager;
   public PostServiceImpl() {
     super(Post.class);

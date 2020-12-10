@@ -1,8 +1,7 @@
-package io.training.entity.commonClasses;
+package io.training.util;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;

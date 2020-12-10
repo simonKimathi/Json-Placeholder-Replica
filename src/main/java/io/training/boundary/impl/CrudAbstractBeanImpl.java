@@ -1,15 +1,15 @@
 package io.training.boundary.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import io.training.boundary.CrudAbstractBean;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import io.training.boundary.CrudAbstractBean;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public abstract class CrudAbstractBeanImpl<T, ID> implements CrudAbstractBean<T, ID> {
   private final Class<T> entityClass;
