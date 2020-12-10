@@ -20,7 +20,7 @@ import java.util.Set;
 public class Post {
   @Column(name="POST_ID")
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
   @Column
