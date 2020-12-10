@@ -6,7 +6,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import io.training.boundary.UserService;
-import io.training.entity.DeleteStatus;
+import io.training.entity.commonClasses.DeleteStatus;
 import io.training.entity.User;
 import io.training.util.Constants;
 

@@ -6,14 +6,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import io.training.boundary.PostService;
-import io.training.entity.DeleteStatus;
+import io.training.entity.commonClasses.DeleteStatus;
 import io.training.entity.Post;
-import io.training.entity.User;
 import io.training.util.Constants;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Stateless
 public class PostServiceImpl extends AbstractBeanImpl<Post,Integer> implements PostService {

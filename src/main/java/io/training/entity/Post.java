@@ -5,9 +5,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.*;
+import io.training.entity.commonClasses.DeleteStatus;
 import lombok.*;
 
-import java.security.PublicKey;
 import java.util.Set;
 
 @Entity

@@ -2,8 +2,7 @@ package io.training.boundary.impl;
 
 import io.training.boundary.CommentService;
 import io.training.entity.Comment;
-import io.training.entity.DeleteStatus;
-import io.training.entity.Post;
+import io.training.entity.commonClasses.DeleteStatus;
 import io.training.util.Constants;
 
 import javax.ejb.Stateless;

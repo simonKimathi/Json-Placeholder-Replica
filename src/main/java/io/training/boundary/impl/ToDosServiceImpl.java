@@ -2,6 +2,7 @@ package io.training.boundary.impl;
 
 import io.training.boundary.ToDosService;
 import io.training.entity.*;
+import io.training.entity.commonClasses.DeleteStatus;
 import io.training.util.Constants;
 
 import javax.ejb.Stateless;
@@ -12,12 +13,12 @@ import java.util.Collections;
 import java.util.List;
 
 @Stateless
-public class ToDosServiceImpl extends AbstractBeanImpl<ToDos, Long> implements ToDosService {
+public class ToDosServiceImpl extends AbstractBeanImpl<ToDo, Long> implements ToDosService {
 
     @PersistenceContext(name = Constants.ENTITY_MANAGER_NAME)
     private EntityManager entityManager;
     public ToDosServiceImpl() {
-        super(ToDos.class);
+        super(ToDo.class);
     }
 
     @Override
@@ -26,12 +27,12 @@ public class ToDosServiceImpl extends AbstractBeanImpl<ToDos, Long> implements T
     }
 
     @Override
-    public List<ToDos> getToDosByUserId(long id) {
-        TypedQuery<ToDos> postTypedQuery = getEntityManager()
-                .createQuery("select t from ToDos t where t.user.id =: id and t.deleteStatus =: deleteStatus", ToDos.class)
+    public List<ToDo> getToDosByUserId(long id) {
+        TypedQuery<ToDo> postTypedQuery = getEntityManager()
+                .createQuery("select t from ToDos t where t.user.id =: id and t.deleteStatus =: deleteStatus", ToDo.class)
                 .setParameter("id", id)
                 .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
-        List<ToDos> postList = postTypedQuery.getResultList();
+        List<ToDo> postList = postTypedQuery.getResultList();
         if(postList.size()>0){
             return postList;
         }
@@ -39,12 +40,12 @@ public class ToDosServiceImpl extends AbstractBeanImpl<ToDos, Long> implements T
     }
 
     @Override
-    public List<ToDos> getToDosByTitle(String title) {
-        TypedQuery<ToDos> postTypedQuery = getEntityManager()
-                .createQuery("select t from ToDos t where t.title LIKE : title and t.deleteStatus =: deleteStatus", ToDos.class)
+    public List<ToDo> getToDosByTitle(String title) {
+        TypedQuery<ToDo> postTypedQuery = getEntityManager()
+                .createQuery("select t from ToDos t where t.title LIKE : title and t.deleteStatus =: deleteStatus", ToDo.class)
                 .setParameter("title", "%"+title+"%")
                 .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
-        List<ToDos> postList = postTypedQuery.getResultList();
+        List<ToDo> postList = postTypedQuery.getResultList();
         if(postList.size()>0){
             return postList;
         }
@@ -52,15 +53,15 @@ public class ToDosServiceImpl extends AbstractBeanImpl<ToDos, Long> implements T
     }
 
     @Override
-    public boolean remove(ToDos entity) {
+    public boolean remove(ToDo entity) {
         entity.setDeleteStatus(DeleteStatus.DELETED);
-        ToDos edit= edit(entity);
+        ToDo edit= edit(entity);
         return edit != null;
     }
 
     @Override
-    public ToDos find(Long id) {
-        List<ToDos> resultList = getEntityManager().createQuery("select t from ToDos t where t.deleteStatus =: deleteStatus and t.id =: id ",ToDos.class)
+    public ToDo find(Long id) {
+        List<ToDo> resultList = getEntityManager().createQuery("select t from ToDos t where t.deleteStatus =: deleteStatus and t.id =: id ", ToDo.class)
                 .setParameter("deleteStatus", DeleteStatus.AVAILABLE)
                 .setParameter("id",id)
                 .getResultList();
@@ -71,8 +72,8 @@ public class ToDosServiceImpl extends AbstractBeanImpl<ToDos, Long> implements T
     }
 
     @Override
-    public List<ToDos> findAll() {
-        List<ToDos> resultList = getEntityManager().createQuery("select t from ToDos t where t.deleteStatus =: deleteStatus",ToDos.class)
+    public List<ToDo> findAll() {
+        List<ToDo> resultList = getEntityManager().createQuery("select t from ToDos t where t.deleteStatus =: deleteStatus", ToDo.class)
                 .setParameter("deleteStatus", DeleteStatus.AVAILABLE).getResultList();
         if (resultList.size()>0 && resultList != null){
             return resultList;

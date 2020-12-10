@@ -2,7 +2,7 @@ package io.training.control.rest.impl;
 
 import io.training.boundary.ToDosService;
 import io.training.control.rest.ToDosRESTEndpoint;
-import io.training.entity.ToDos;
+import io.training.entity.ToDo;
 
 import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
@@ -14,17 +14,17 @@ public class ToDosRESTEndpointImpl implements ToDosRESTEndpoint {
 
     @Override
     public Response retrieveToDos(long id) {
-        ToDos toDos = toDosService.find(id);
-        if(toDos==null){
+        ToDo toDo = toDosService.find(id);
+        if(toDo ==null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.ok().entity(toDos).build();
+        return Response.ok().entity(toDo).build();
     }
 
     @Override
     public Response getAllToDoss() {
 
-        List<ToDos> commentList = toDosService.findAll();
+        List<ToDo> commentList = toDosService.findAll();
         if(commentList.size()>0){
             return Response.ok().entity(commentList).build();
         }
@@ -33,25 +33,25 @@ public class ToDosRESTEndpointImpl implements ToDosRESTEndpoint {
 
     @Override
     public Response getToDosByUserId(long id) {
-        List<ToDos> toDosList = toDosService.getToDosByUserId(id);
-        if(toDosList.size()>0){
-            return Response.ok().entity(toDosList).build();
+        List<ToDo> toDoList = toDosService.getToDosByUserId(id);
+        if(toDoList.size()>0){
+            return Response.ok().entity(toDoList).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @Override
     public Response getToDosByTitle(String title) {
-        List<ToDos> toDosList = toDosService.getToDosByTitle(title);
-        if(toDosList.size()>0){
-            return Response.ok().entity(toDosList).build();
+        List<ToDo> toDoList = toDosService.getToDosByTitle(title);
+        if(toDoList.size()>0){
+            return Response.ok().entity(toDoList).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @Override
-    public Response createToDos(ToDos toDos) {
-        ToDos createdTodos = toDosService.create(toDos);
+    public Response createToDos(ToDo toDo) {
+        ToDo createdTodos = toDosService.create(toDo);
         if(createdTodos==null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -59,21 +59,21 @@ public class ToDosRESTEndpointImpl implements ToDosRESTEndpoint {
     }
 
     @Override
-    public Response editToDos(long id, ToDos toDos) {
-        if(id != toDos.getId()){
+    public Response editToDos(long id, ToDo toDo) {
+        if(id != toDo.getId()){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        ToDos FindTodos= toDosService.find(id);
-        if(FindTodos == null){
+        ToDo findTodos = toDosService.find(id);
+        if(findTodos == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        ToDos editedTodos = toDosService.edit(toDos);
+        ToDo editedTodos = toDosService.edit(toDo);
         return Response.ok().entity(toDosService).build();
     }
 
     @Override
     public Response deleteToDos(long id) {
-        ToDos deletedTodos = toDosService.find(id);
+        ToDo deletedTodos = toDosService.find(id);
         if(deletedTodos==null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

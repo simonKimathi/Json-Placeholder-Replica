@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.training.entity.ToDos;
+import io.training.entity.ToDo;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -27,7 +27,7 @@ public interface ToDosRESTEndpoint {
                             content =
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ToDos.class))),
+                                    schema = @Schema(implementation = ToDo.class))),
                     @ApiResponse(responseCode = "400", description = "ToDos not found")
             })
     Response retrieveToDos(@PathParam("id") long id);
@@ -41,7 +41,7 @@ public interface ToDosRESTEndpoint {
                             content =
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ToDos.class))),
+                                    schema = @Schema(implementation = ToDo.class))),
                     @ApiResponse(responseCode = "400", description = "ToDos not found")
             })
     Response getAllToDoss();
@@ -56,7 +56,7 @@ public interface ToDosRESTEndpoint {
                             content =
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ToDos.class))),
+                                    schema = @Schema(implementation = ToDo.class))),
                     @ApiResponse(responseCode = "400", description = "ToDos not found")
             })
     Response getToDosByUserId(@PathParam("id") long id);
@@ -71,7 +71,7 @@ public interface ToDosRESTEndpoint {
                             content =
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ToDos.class))),
+                                    schema = @Schema(implementation = ToDo.class))),
                     @ApiResponse(responseCode = "400", description = "ToDos not found")
             })
     Response getToDosByTitle(@QueryParam("title") String title);
@@ -86,10 +86,10 @@ public interface ToDosRESTEndpoint {
                             content =
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ToDos.class))),
+                                    schema = @Schema(implementation = ToDo.class))),
                     @ApiResponse(responseCode = "400", description = "Error")
             })
-    Response createToDos(ToDos toDos);
+    Response createToDos(ToDo toDo);
 
     @PUT
     @Path("/{id}")
@@ -101,10 +101,10 @@ public interface ToDosRESTEndpoint {
                             content =
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ToDos.class))),
+                                    schema = @Schema(implementation = ToDo.class))),
                     @ApiResponse(responseCode = "400", description = "Error")
             })
-    Response editToDos(@PathParam("id") long id, ToDos toDos);
+    Response editToDos(@PathParam("id") long id, ToDo toDo);
 
     @DELETE
     @Path("/{id}")
@@ -116,7 +116,7 @@ public interface ToDosRESTEndpoint {
                             content =
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ToDos.class))),
+                                    schema = @Schema(implementation = ToDo.class))),
                     @ApiResponse(responseCode = "400", description = "ToDos not found")
             })
     Response deleteToDos(@PathParam("id") long id);

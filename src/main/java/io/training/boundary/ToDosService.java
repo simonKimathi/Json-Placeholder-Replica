@@ -1,11 +1,11 @@
 package io.training.boundary;
 
-import io.training.entity.ToDos;
+import io.training.entity.ToDo;
 
 import java.util.List;
 
-public interface ToDosService extends AbstractBean<ToDos,Long> {
+public interface ToDosService extends AbstractBean<ToDo,Long> {
 
-    List<ToDos> getToDosByUserId(long id);
-    List<ToDos> getToDosByTitle(String title);
+    List<ToDo> getToDosByUserId(long id);
+    List<ToDo> getToDosByTitle(String title);
 }
