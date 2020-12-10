@@ -1,9 +1,6 @@
 package io.training.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import io.training.util.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,14 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table
@@ -26,6 +19,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties({"photos","deleteStatus","createdOn","updatedOn"})
 public class Album extends BaseEntity {
 
     @Column
@@ -40,6 +34,10 @@ public class Album extends BaseEntity {
     @JsonProperty("userId")
     @Setter(AccessLevel.NONE)
     private User user;
+
+    @OneToMany(mappedBy = "album" ,fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Photo> photos;
 
     @JsonProperty("userId")
     public void setUserById(Long userId) {

@@ -1,9 +1,6 @@
 package io.training.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import io.training.util.BaseEntity;
 import lombok.*;
 
@@ -17,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties({"deleteStatus","createdOn","updatedOn"})
 public class Todo extends BaseEntity {
 
     @Column

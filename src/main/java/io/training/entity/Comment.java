@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @ToString(exclude = {"post"})
 @EqualsAndHashCode
+@JsonIgnoreProperties({"deleteStatus","createdOn","updatedOn"})
 public class Comment extends BaseEntity {
 
     @Column

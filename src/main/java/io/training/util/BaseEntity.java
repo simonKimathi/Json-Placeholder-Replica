@@ -1,5 +1,6 @@
 package io.training.util;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Getter
 @Setter
-public abstract class BaseEntity implements Serializable {
+public abstract class BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -19,7 +19,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
-@JsonIgnoreProperties({"posts"})
+@JsonIgnoreProperties({"posts","deleteStatus","createdOn","updatedOn"})
 public class User extends BaseEntity {
 
   @Column

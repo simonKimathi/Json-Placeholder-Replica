@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @ToString(exclude = {"user"})
 @EqualsAndHashCode
-@JsonIgnoreProperties({"comments"})
+@JsonIgnoreProperties({"comments","deleteStatus","createdOn","updatedOn"})
 public class Post extends BaseEntity {
 
   @Column

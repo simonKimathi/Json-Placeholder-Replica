@@ -60,9 +60,9 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
 
   @Override
   public Response createUser(User user, UriInfo uriInfo) {
-    if (userService.existsById(user.getId())) {
+    /*if (userService.existsById(user.getId())) {
       return Response.status(Response.Status.CONFLICT).build();
-    }
+    }*/
     User savedUser = userService.save(user);
     URI location = uriInfo.getBaseUriBuilder()
             .path(UserRESTServerEndpoint.class)
