@@ -38,7 +38,9 @@ public interface AlbumEndpoint {
             })
     @GET
     Response listAllAlbums(@QueryParam("userId") long userId,
-                           @QueryParam("title") String title);
+                           @QueryParam("title") String title,
+                           @QueryParam("start") @DefaultValue("0") int start,
+                           @QueryParam("limit") @DefaultValue("2") int limit);
 
 
     @Operation(

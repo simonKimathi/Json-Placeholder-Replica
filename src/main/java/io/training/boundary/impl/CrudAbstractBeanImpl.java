@@ -132,7 +132,7 @@ public abstract class CrudAbstractBeanImpl<T, ID> implements CrudAbstractBean<T,
     cq.select(cq.from(entityClass));
     TypedQuery<T> q = getEntityManager().createQuery(cq);
     q.setFirstResult(range[0]);//set offset
-    q.setMaxResults(range[1] - range[0] + 1);//limit
+    q.setMaxResults(range[1] - range[0]);//limit
     return q.getResultList();
   }
 

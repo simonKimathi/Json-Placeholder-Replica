@@ -44,7 +44,9 @@ public interface ToDosRESTEndpoint {
                                     schema = @Schema(implementation = Todo.class))),
                     @ApiResponse(responseCode = "400", description = "ToDos not found")
             })
-    Response getAllToDoss();
+    Response getAllToDoss(
+            @QueryParam("start") @DefaultValue("0") int start,
+            @QueryParam("limit") @DefaultValue("2") int limit);
 
 
     @POST

@@ -19,8 +19,8 @@ public class PhotoEndpointImpl implements PhotoRestEndpoint {
     @EJB
     private PhotoService photoService;
     @Override
-    public Response listAllPhotos(long albumId, String title) {
-        List<Photo> photoList=photoService.findAll();
+    public Response listAllPhotos(long albumId, String title, int start, int limit) {
+        List<Photo> photoList=photoService.findRange(new int[]{start,limit});;
         if(title != null){
             return Response.ok()
                     .entity(photoList

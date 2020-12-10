@@ -22,9 +22,9 @@ public class ToDosRESTEndpointImpl implements ToDosRESTEndpoint {
     }
 
     @Override
-    public Response getAllToDoss() {
+    public Response getAllToDoss(int start, int limit) {
 
-        List<Todo> commentList = toDosService.findAll();
+        List<Todo> commentList = toDosService.findRange(new int[]{start,limit});;
         if(commentList.size()>0){
             return Response.ok().entity(commentList).build();
         }

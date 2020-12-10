@@ -2,6 +2,7 @@ package io.training.control.rest.endPoints.impl;
 
 import io.training.boundary.CommentService;
 import io.training.control.rest.endPoints.CommentEndpoint;
+import io.training.entity.Album;
 import io.training.entity.Comment;
 
 import javax.ejb.EJB;
@@ -10,6 +11,7 @@ import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 @Stateless
@@ -17,9 +19,10 @@ public class CommentEndpointImpl implements CommentEndpoint {
     @EJB
     private CommentService commentRepository;
     @Override
-    public Response listAllComments(long postId) {
+    public Response listAllComments(long postId, int start, int limit) {
+        List<Comment> commentList=commentRepository.findRange(new int[]{start,limit});
         return postId > 0 ? Response.ok(commentRepository.findAllByPostId(postId)).build()
-                : Response.ok(commentRepository.findAll()).build();
+                : Response.ok(commentList).build();
 
     }
 

@@ -20,8 +20,8 @@ public class AlbumEndpointImpl implements AlbumEndpoint {
     private AlbumService albumService;
 
     @Override
-    public Response listAllAlbums(long userId, String title) {
-        List<Album> albumList =albumService.findAll();
+    public Response listAllAlbums(long userId, String title, int start, int limit) {
+        List<Album> albumList =albumService.findRange(new int[]{start,limit});
         if(title != null){
             return Response.ok()
                     .entity(albumList

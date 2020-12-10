@@ -36,7 +36,9 @@ public interface CommentEndpoint {
 
             })
     @GET
-    Response listAllComments(@QueryParam("postId") long postId);
+    Response listAllComments(@QueryParam("postId") long postId,
+                             @QueryParam("start") @DefaultValue("0") int start,
+                             @QueryParam("limit") @DefaultValue("2") int limit);
 
     @Operation(
             summary = "Create comment",

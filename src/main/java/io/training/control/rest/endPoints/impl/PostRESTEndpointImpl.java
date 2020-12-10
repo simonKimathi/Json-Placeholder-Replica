@@ -19,8 +19,8 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
   private PostService postService;
 
   @Override
-  public Response listAllPosts(long userId, String title) {
-    List<Post> postList = postService.findAll();
+  public Response listAllPosts(long userId, String title, int start, int limit) {
+    List<Post> postList = postService.findRange(new int[]{start,limit});;
     if(userId != 0.0f){
       return Response.ok().entity(postList
               .stream()
