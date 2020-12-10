@@ -54,7 +54,9 @@ public interface UserRESTServerEndpoint {
             })
     Response getAllUsers(@QueryParam("phone") String phone,
                          @QueryParam("username") String username,
-                         @QueryParam("email") String email);
+                         @QueryParam("email") String email,
+                         @QueryParam("start") @DefaultValue("0") int start,
+                         @QueryParam("limit") @DefaultValue("2") int limit);
 
     @POST
     @Operation(

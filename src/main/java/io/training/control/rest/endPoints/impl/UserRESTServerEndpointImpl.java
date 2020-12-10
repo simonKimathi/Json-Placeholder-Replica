@@ -31,9 +31,10 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
   }
 
   @Override
-  public Response getAllUsers(String phone,String username,String email) {
+  public Response getAllUsers(String phone, String username, String email, int start, int limit) {
 
-    List<User> usersList = userService.findAll();
+//    List<User> usersList = userService.findAll();
+    List<User> usersList = userService.findRange(new int[]{start,limit});
     if(phone != null){
       return Response.ok().entity(usersList
               .stream()
