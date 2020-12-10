@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @Stateless
-public class CommentServiceImpl extends AbstractBeanImpl<Comment,Integer> implements CommentService {
+public class CommentServiceImpl extends CrudAbstractBeanImpl<Comment,Integer> implements CommentService {
     @PersistenceContext(name = Constants.ENTITY_MANAGER_NAME)
     private EntityManager entityManager;
 
@@ -55,9 +55,9 @@ public class CommentServiceImpl extends AbstractBeanImpl<Comment,Integer> implem
 
 
     @Override
-    public boolean remove(Comment entity) {
+    public boolean delete(Comment entity) {
         entity.setDeleteStatus(DeleteStatus.DELETED);
-        Comment edit= edit(entity);
+        Comment edit= update(entity);
         return edit != null;
     }
 

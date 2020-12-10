@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Stateless
-public class UserServiceImpl extends AbstractBeanImpl<User, Long> implements UserService {
+public class UserServiceImpl extends CrudAbstractBeanImpl<User, Long> implements UserService {
   @PersistenceContext(name = Constants.ENTITY_MANAGER_NAME)
   private EntityManager entityManager;
   public UserServiceImpl() {
@@ -54,9 +54,9 @@ public class UserServiceImpl extends AbstractBeanImpl<User, Long> implements Use
   }
 
   @Override
-  public boolean remove(User entity) {
+  public boolean delete(User entity) {
     entity.setDeleteStatus(DeleteStatus.DELETED);
-    User edit= edit(entity);
+    User edit= update(entity);
     return edit != null;
   }
 

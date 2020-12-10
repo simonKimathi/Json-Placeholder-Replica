@@ -51,7 +51,7 @@ public class ToDosRESTEndpointImpl implements ToDosRESTEndpoint {
 
     @Override
     public Response createToDos(ToDo toDo) {
-        ToDo createdTodos = toDosService.create(toDo);
+        ToDo createdTodos = toDosService.save(toDo);
         if(createdTodos==null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -67,7 +67,7 @@ public class ToDosRESTEndpointImpl implements ToDosRESTEndpoint {
         if(findTodos == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        ToDo editedTodos = toDosService.edit(toDo);
+        ToDo editedTodos = toDosService.update(toDo);
         return Response.ok().entity(toDosService).build();
     }
 
@@ -77,7 +77,7 @@ public class ToDosRESTEndpointImpl implements ToDosRESTEndpoint {
         if(deletedTodos==null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok().entity(toDosService.remove(deletedTodos)).build();
+        return Response.ok().entity(toDosService.delete(deletedTodos)).build();
     }
 }
 

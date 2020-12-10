@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Stateless
-public class ToDosServiceImpl extends AbstractBeanImpl<ToDo, Long> implements ToDosService {
+public class ToDosServiceImpl extends CrudAbstractBeanImpl<ToDo, Long> implements ToDosService {
 
     @PersistenceContext(name = Constants.ENTITY_MANAGER_NAME)
     private EntityManager entityManager;
@@ -53,9 +53,9 @@ public class ToDosServiceImpl extends AbstractBeanImpl<ToDo, Long> implements To
     }
 
     @Override
-    public boolean remove(ToDo entity) {
+    public boolean delete(ToDo entity) {
         entity.setDeleteStatus(DeleteStatus.DELETED);
-        ToDo edit= edit(entity);
+        ToDo edit= update(entity);
         return edit != null;
     }
 

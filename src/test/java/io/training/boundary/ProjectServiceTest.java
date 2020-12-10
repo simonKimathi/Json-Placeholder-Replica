@@ -34,11 +34,11 @@ public class ProjectServiceTest {
   @Test
   public void shouldPersistEntities() throws Exception {
     assertEquals(0, projectService.findAll().size());
-    projectService.create(new Project("project A"));
-    projectService.create(new Project("project B"));
-    projectService.create(new Project("project C"));
-    projectService.create(new Project("project D"));
-    projectService.create(new Project("project E"));
+    projectService.save(new Project("project A"));
+    projectService.save(new Project("project B"));
+    projectService.save(new Project("project C"));
+    projectService.save(new Project("project D"));
+    projectService.save(new Project("project E"));
     List<Project> projects = projectService.findAll();
     assertEquals(5, projects.size());
     System.out.println(projects);

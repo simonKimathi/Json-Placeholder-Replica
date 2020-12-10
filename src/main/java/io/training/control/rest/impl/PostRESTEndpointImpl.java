@@ -2,7 +2,6 @@ package io.training.control.rest.impl;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ws.rs.POST;
 import javax.ws.rs.core.Response;
 
 import io.training.boundary.CommentService;
@@ -10,10 +9,8 @@ import io.training.boundary.PostService;
 import io.training.control.rest.PostRESTEndpoint;
 import io.training.entity.Comment;
 import io.training.entity.Post;
-import io.training.entity.User;
 
 import java.util.List;
-import java.util.Optional;
 
 @Stateless
 public class PostRESTEndpointImpl implements PostRESTEndpoint {
@@ -61,7 +58,7 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
 
   @Override
   public Response createPost(Post post) {
-    Post createdPost = postService.create(post);
+    Post createdPost = postService.save(post);
     if (createdPost==null){
       return Response.status(Response.Status.BAD_REQUEST).build();
     }
@@ -77,7 +74,7 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
     if(FindPost == null){
       return Response.status(Response.Status.NOT_FOUND).build();
     }
-    Post editedPost = postService.edit(post);
+    Post editedPost = postService.update(post);
     return Response.ok().entity(editedPost).build();
   }
 
@@ -97,6 +94,6 @@ public class PostRESTEndpointImpl implements PostRESTEndpoint {
     if (deletedPost==null){
       return Response.status(Response.Status.BAD_REQUEST).build();
     }
-    return Response.ok().entity(postService.remove(deletedPost)).build();
+    return Response.ok().entity(postService.delete(deletedPost)).build();
   }
 }

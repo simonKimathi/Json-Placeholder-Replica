@@ -8,7 +8,7 @@ import io.training.entity.Project;
 import io.training.util.Constants;
 
 @Stateless
-public class ProjectTaskServiceImpl extends AbstractBeanImpl<Project, Long> implements ProjectService {
+public class ProjectTaskServiceImpl extends CrudAbstractBeanImpl<Project, Long> implements ProjectService {
 
   @PersistenceContext(name = Constants.ENTITY_MANAGER_NAME)
   private EntityManager entityManager;

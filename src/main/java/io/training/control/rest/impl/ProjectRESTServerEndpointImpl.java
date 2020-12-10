@@ -45,7 +45,7 @@ public class ProjectRESTServerEndpointImpl implements ProjectRESTServerEndpoint 
 
   @Override
   public Response createProject(Project projectObject) {
-    service.create(projectObject);
+    service.save(projectObject);
     StringWriter swriter = new StringWriter();
     JsonGenerator generator =
             jsonGeneratorFactory.createGenerator(swriter);

@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Stateless
-public class PostServiceImpl extends AbstractBeanImpl<Post,Integer> implements PostService {
+public class PostServiceImpl extends CrudAbstractBeanImpl<Post,Integer> implements PostService {
   @PersistenceContext(name = Constants.ENTITY_MANAGER_NAME)
   private EntityManager entityManager;
   public PostServiceImpl() {
@@ -53,9 +53,9 @@ public class PostServiceImpl extends AbstractBeanImpl<Post,Integer> implements P
   }
 
   @Override
-  public boolean remove(Post entity) {
+  public boolean delete(Post entity) {
     entity.setDeleteStatus(DeleteStatus.DELETED);
-    Post edit= edit(entity);
+    Post edit= update(entity);
     return edit != null;
   }
 

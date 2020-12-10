@@ -1,11 +1,8 @@
 package io.training.control.rest.impl;
 
 import io.training.boundary.CommentService;
-import io.training.boundary.PostService;
 import io.training.control.rest.CommentRestEndpoint;
 import io.training.entity.Comment;
-import io.training.entity.Post;
-import io.training.entity.User;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -34,7 +31,7 @@ public class CommentRestEndpointImpl implements CommentRestEndpoint {
 
     @Override
     public Response createComment(Comment comment) {
-        Comment createdComment = CommentService.create(comment);
+        Comment createdComment = CommentService.save(comment);
         if(createdComment==null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -86,7 +83,7 @@ public class CommentRestEndpointImpl implements CommentRestEndpoint {
         if(FindComment == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        Comment editedComment = CommentService.edit(comment);
+        Comment editedComment = CommentService.update(comment);
         return Response.ok().entity(editedComment).build();
     }
 
@@ -96,7 +93,7 @@ public class CommentRestEndpointImpl implements CommentRestEndpoint {
         if(deletedComment==null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok().entity(CommentService.remove(deletedComment)).build();
+        return Response.ok().entity(CommentService.delete(deletedComment)).build();
     }
 
 }
