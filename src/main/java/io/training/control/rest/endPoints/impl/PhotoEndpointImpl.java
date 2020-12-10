@@ -10,14 +10,25 @@ import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Stateless
 public class PhotoEndpointImpl implements PhotoRestEndpoint {
     @EJB
     private PhotoService photoService;
     @Override
-    public Response listAllPhotos(long albumId) {
+    public Response listAllPhotos(long albumId, String title) {
+        List<Photo> photoList=photoService.findAll();
+        if(title != null){
+            return Response.ok()
+                    .entity(photoList
+                            .stream()
+                            .filter(photo -> photo.getTitle().equals(title))
+                            .collect(Collectors.toList()))
+                    .build();
+        }
         return albumId > 0 ? Response.ok(photoService.findAllByAlbumId(albumId)).build()
                 : Response.ok(photoService.findAll()).build();
     }

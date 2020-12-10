@@ -37,7 +37,8 @@ public interface PhotoRestEndpoint {
 
             })
     @GET
-    Response listAllPhotos(@QueryParam("albumId") long albumId);
+    Response listAllPhotos(@QueryParam("albumId") long albumId,
+                           @QueryParam("title") String title);
 
 
     @Operation(
