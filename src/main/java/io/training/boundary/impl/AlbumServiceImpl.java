@@ -1,6 +1,6 @@
 package io.training.boundary.impl;
 
-import io.training.boundary.AlbumRepository;
+import io.training.boundary.AlbumService;
 import io.training.entity.Album;
 import io.training.util.Constants;
 
@@ -13,11 +13,11 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Stateless
-public class AlbumRepositoryImpl extends CrudAbstractBeanImpl<Album, Long> implements AlbumRepository {
+public class AlbumServiceImpl extends CrudAbstractBeanImpl<Album, Long> implements AlbumService {
     @PersistenceContext(name = Constants.PERSISTENCE_UNIT_NAME)
     private EntityManager entityManager;
 
-    public AlbumRepositoryImpl() {
+    public AlbumServiceImpl() {
         super(Album.class);
     }
     @Override

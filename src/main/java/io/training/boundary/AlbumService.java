@@ -6,6 +6,6 @@ import io.training.entity.Album;
 
 import java.util.List;
 
-public interface AlbumRepository extends CrudAbstractBean<Album,Long>{
+public interface AlbumService extends CrudAbstractBean<Album,Long>{
     List<Album> findAllByUserId(long userId);
 }
