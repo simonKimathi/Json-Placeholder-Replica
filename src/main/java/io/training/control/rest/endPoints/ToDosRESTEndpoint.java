@@ -45,7 +45,7 @@ public interface ToDosRESTEndpoint {
                     @ApiResponse(responseCode = "400", description = "ToDos not found")
             })
     Response getAllToDoss(
-            @QueryParam("start") @DefaultValue("0") int start,
+            @QueryParam("start") @DefaultValue("1") int start,
             @QueryParam("limit") @DefaultValue("2") int limit);
 
 
