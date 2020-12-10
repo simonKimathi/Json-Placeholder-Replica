@@ -1,13 +1,12 @@
-package io.training.control.rest;
+package io.training.control.rest.endPoints;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.training.control.rest.impl.Error;
+import io.training.control.rest.endPoints.impl.Error;
 import io.training.entity.Comment;
-import io.training.entity.Post;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;

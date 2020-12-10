@@ -1,10 +1,4 @@
-package io.training.control.rest;
-
-import javax.validation.Valid;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+package io.training.boundary;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -12,27 +6,30 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.training.control.rest.impl.Error;
-import io.training.entity.Post;
-import io.training.entity.Post;
+import io.training.entity.Photo;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import javax.validation.Valid;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
+@Path("photos")
+@Tag(name = "photos")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 
-@Path("/posts")
-@Consumes(APPLICATION_JSON)
-@Produces(APPLICATION_JSON)
-@Tag(name = "Post")
-public interface PostRESTEndpoint {
+public interface PhotoEndpoint {
     @Operation(
-            summary = "Get all posts",
+            summary = "Get all photos",
             responses = {
                     @ApiResponse(
-                            description = "List containing all posts",
+                            description = "List containing all photos",
                             content = @Content(
                                     array = @ArraySchema(
                                             schema = @Schema(
-                                                    implementation = Post.class
+                                                    implementation = Photo.class
                                             )
                                     )
                             )
@@ -40,19 +37,19 @@ public interface PostRESTEndpoint {
 
             })
     @GET
-    Response listAllPosts(@QueryParam("userId") long userId,
-                          @QueryParam("title") String title);
+    Response listAllPhotos(@QueryParam("albumId") long albumId);
+
 
     @Operation(
-            summary = "Create post",
+            summary = "Create photo",
             responses = {
                     @ApiResponse(
-                            description = "The created post",
+                            description = "The created photo",
                             responseCode = "201",
                             content =
                             @Content(
                                     schema = @Schema(
-                                            implementation = Post.class
+                                            implementation = Photo.class
                                     )
                             )
                     ),
@@ -65,41 +62,41 @@ public interface PostRESTEndpoint {
             }
     )
     @POST
-    Response createPost(@Valid Post user,
+    Response createPhoto(@Valid Photo photo,
                         @Context UriInfo uriInfo);
 
     @GET
     @Path("/{id}")
     @Operation(
-            summary = "Get post by  id",
+            summary = "Get photo by  id",
             responses = {
                     @ApiResponse(
-                            description = "The post with id",
+                            description = "The photo with id",
                             responseCode = "200",
                             content =
                             @Content(
                                     schema = @Schema(
-                                            implementation = Post.class
+                                            implementation = Photo.class
                                     )
                             )
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "post not found"
+                            description = "photo not found"
                     )
             })
-    Response getPostById(@PathParam("id") long id);
+    Response getPhotoById(@PathParam("id") long id);
 
     @Operation(
-            summary = "Update post",
+            summary = "Update photo",
             responses = {
                     @ApiResponse(
-                            description = "The updated post",
+                            description = "The updated photo",
                             responseCode = "200",
                             content =
                             @Content(
                                     schema = @Schema(
-                                            implementation = Post.class
+                                            implementation = Photo.class
                                     )
                             )
                     ),
@@ -109,7 +106,7 @@ public interface PostRESTEndpoint {
                     ),
                     @ApiResponse(
                             responseCode = "409",
-                            description = "post already exists"
+                            description = "photo already exists"
                     ),
                     @ApiResponse(
                             responseCode = "404",
@@ -119,14 +116,14 @@ public interface PostRESTEndpoint {
     )
     @PUT
     @Path("{id}")
-    Response updatePost(@PathParam("id") long id, @Valid Post post,
+    Response updatePhoto(@PathParam("id") long id, @Valid Photo photo,
                         @Context UriInfo uriInfo);
 
     @Operation(
-            summary = "delete post",
+            summary = "delete photo",
             responses = {
                     @ApiResponse(
-                            description = "successful deletion of post",
+                            description = "successful deletion of photo",
                             responseCode = "200"
                     ),
                     @ApiResponse(
@@ -137,7 +134,8 @@ public interface PostRESTEndpoint {
     )
     @DELETE
     @Path("{id}")
-    Response deletePost(@PathParam("id") long id);
+    Response deletePhoto(@PathParam("id") long id);
+
+
 
 }
-

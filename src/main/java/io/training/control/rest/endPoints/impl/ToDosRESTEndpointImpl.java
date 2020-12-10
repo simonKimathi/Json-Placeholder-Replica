@@ -1,7 +1,7 @@
-package io.training.control.rest.impl;
+package io.training.control.rest.endPoints.impl;
 
 import io.training.boundary.ToDosService;
-import io.training.control.rest.ToDosRESTEndpoint;
+import io.training.control.rest.endPoints.ToDosRESTEndpoint;
 import io.training.entity.Todo;
 
 import javax.ejb.EJB;

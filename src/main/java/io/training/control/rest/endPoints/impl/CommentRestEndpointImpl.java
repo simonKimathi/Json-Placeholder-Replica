@@ -1,7 +1,7 @@
-package io.training.control.rest.impl;
+package io.training.control.rest.endPoints.impl;
 
 import io.training.boundary.CommentService;
-import io.training.control.rest.CommentRestEndpoint;
+import io.training.control.rest.endPoints.CommentRestEndpoint;
 import io.training.entity.Comment;
 
 import javax.ejb.EJB;

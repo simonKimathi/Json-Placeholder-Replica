@@ -1,4 +1,4 @@
-package io.training.control.rest.impl;
+package io.training.control.rest.endPoints.impl;
 
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import javax.json.stream.JsonGeneratorFactory;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.core.Response;
 import io.training.boundary.ProjectService;
-import io.training.control.rest.ProjectRESTServerEndpoint;
+import io.training.control.rest.endPoints.ProjectRESTServerEndpoint;
 import io.training.entity.Project;
 
 @Stateless

@@ -1,5 +1,5 @@
 
-package io.training.control.rest.impl;
+package io.training.control.rest.endPoints.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

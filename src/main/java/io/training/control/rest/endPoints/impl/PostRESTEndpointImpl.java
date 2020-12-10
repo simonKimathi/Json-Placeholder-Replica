@@ -1,7 +1,7 @@
-package io.training.control.rest.impl;
+package io.training.control.rest.endPoints.impl;
 
 import io.training.boundary.PostService;
-import io.training.control.rest.PostRESTEndpoint;
+import io.training.control.rest.endPoints.PostRESTEndpoint;
 import io.training.entity.Post;
 
 import javax.ejb.EJB;
@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

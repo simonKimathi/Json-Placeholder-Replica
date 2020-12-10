@@ -1,4 +1,4 @@
-package io.training.control.rest.impl;
+package io.training.control.rest.endPoints.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

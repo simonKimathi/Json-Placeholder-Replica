@@ -1,10 +1,10 @@
-package io.training.control.rest.impl;
+package io.training.control.rest.endPoints.impl;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.core.Response;
 import io.training.boundary.UserService;
-import io.training.control.rest.UserRESTServerEndpoint;
+import io.training.control.rest.endPoints.UserRESTServerEndpoint;
 import io.training.entity.User;
 import io.training.util.DeleteStatus;
 

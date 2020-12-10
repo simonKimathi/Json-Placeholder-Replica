@@ -1,7 +1,7 @@
-package io.training.control.rest.impl;
+package io.training.control.rest.endPoints.impl;
 
 import io.training.boundary.AlbumService;
-import io.training.control.rest.AlbumEndpoint;
+import io.training.control.rest.endPoints.AlbumEndpoint;
 import io.training.entity.Album;
 
 import javax.ejb.EJB;

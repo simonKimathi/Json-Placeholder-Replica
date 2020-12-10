@@ -1,4 +1,4 @@
-package io.training.control.rest;
+package io.training.control.rest.endPoints;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
