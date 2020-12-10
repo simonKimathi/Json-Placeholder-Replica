@@ -6,6 +6,7 @@ import javax.ws.rs.core.Response;
 import io.training.boundary.UserService;
 import io.training.control.rest.UserRESTServerEndpoint;
 import io.training.entity.User;
+import io.training.util.DeleteStatus;
 
 import java.net.URI;
 import javax.ws.rs.core.UriInfo;
@@ -21,7 +22,10 @@ public class UserRESTServerEndpointImpl implements UserRESTServerEndpoint {
   public Response retrieveUser(long id) {
     Optional<User> optionalUser = userService.findById(id);
     return optionalUser.isPresent() ?
-            Response.ok().entity(optionalUser.get()).build()
+            Response.ok().entity(optionalUser
+                    .stream()
+                    .filter((user) -> user.getDeleteStatus().equals(DeleteStatus.AVAILABLE)).collect(Collectors.toList())
+                    .get(0)).build()
             :
             Response.status(Response.Status.NOT_FOUND).build();
   }

@@ -4,6 +4,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import io.training.boundary.PostService;
 import io.training.util.DeleteStatus;
@@ -14,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Stateless
-public class PostServiceImpl extends CrudAbstractBeanImpl<Post,Integer> implements PostService {
+public class PostServiceImpl extends CrudAbstractBeanImpl<Post,Long> implements PostService {
   @PersistenceContext(name = Constants.PERSISTENCE_UNIT_NAME)
   private EntityManager entityManager;
   public PostServiceImpl() {
@@ -26,31 +29,7 @@ public class PostServiceImpl extends CrudAbstractBeanImpl<Post,Integer> implemen
     return entityManager;
   }
 
-  @Override
-  public List<Post> getPostByTitle(String title) {
-    TypedQuery<Post> postTypedQuery = getEntityManager()
-            .createQuery("select p from Post p where p.title LIKE : title and p.deleteStatus =: deleteStatus", Post.class)
-            .setParameter("title", "%"+title+"%")
-            .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
-    List<Post> postList = postTypedQuery.getResultList();
-    if(postList.size()>0){
-      return postList;
-    }
-      return Collections.emptyList();
-  }
 
-  @Override
-  public List<Post> getPostByUserId(long userId) {
-    TypedQuery<Post> postTypedQuery = getEntityManager()
-            .createQuery("select p from Post p where p.user.id =: userId and p.deleteStatus =: deleteStatus", Post.class)
-            .setParameter("userId", userId)
-            .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
-    List<Post> postList = postTypedQuery.getResultList();
-    if(postList.size()>0){
-      return postList;
-    }
-    return Collections.emptyList();
-  }
 
   @Override
   public boolean delete(Post entity) {
@@ -60,24 +39,20 @@ public class PostServiceImpl extends CrudAbstractBeanImpl<Post,Integer> implemen
   }
 
   @Override
-  public Post find(Integer id) {
-    List<Post> resultList = getEntityManager().createQuery("select p from Post p where p.deleteStatus =: deleteStatus and p.id =: id ",Post.class)
-            .setParameter("deleteStatus", DeleteStatus.AVAILABLE)
-            .setParameter("id",id)
-            .getResultList();
-    if (resultList.size()>0 && resultList != null){
-      return resultList.get(0);
-    }
-    return null;
+  public List<Post> findAllByUserId(long userId) {
+    CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+    CriteriaQuery<Post> query = criteriaBuilder.createQuery(Post.class);
+    Root<Post> from = query.from(Post.class);
+    query.select(from)
+            .where(
+                    criteriaBuilder.equal(
+                            from.get("user").get("id"),
+                            userId
+                    )
+            );
+    return getEntityManager().createQuery(query).getResultList();
+
+
   }
 
-  @Override
-  public List<Post> findAll() {
-    List<Post> resultList = getEntityManager().createQuery("select p from Post p where p.deleteStatus =: deleteStatus",Post.class)
-            .setParameter("deleteStatus", DeleteStatus.AVAILABLE).getResultList();
-    if (resultList.size()>0 && resultList != null){
-      return resultList;
-    }
-    return Collections.emptyList();
-  }
 }

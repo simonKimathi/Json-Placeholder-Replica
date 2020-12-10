@@ -1,8 +1,13 @@
 package io.training.control.rest;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,122 +24,119 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Produces(APPLICATION_JSON)
 @Tag(name = "Post")
 public interface PostRESTEndpoint {
-    @GET
-    @Path("/{id}")
     @Operation(
-            summary = "Get Post by  id",
+            summary = "Get all posts",
             responses = {
                     @ApiResponse(
-                            description = "The Post",
-                            content =
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = Post.class))),
-                    @ApiResponse(responseCode = "400", description = "Post not found")
-            })
-    Response getPostById(@PathParam("id") int id);
+                            description = "List containing all posts",
+                            content = @Content(
+                                    array = @ArraySchema(
+                                            schema = @Schema(
+                                                    implementation = Post.class
+                                            )
+                                    )
+                            )
+                    )
 
+            })
     @GET
+    Response listAllPosts(@QueryParam("userId") long userId);
+
     @Operation(
-            summary = "Get all Posts",
+            summary = "Create post",
             responses = {
                     @ApiResponse(
-                            description = "The Post",
+                            description = "The created post",
+                            responseCode = "201",
                             content =
                             @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = Post.class))),
-                    @ApiResponse(responseCode = "400", description = "Post not found")
-            })
-    Response getAllPosts();
-
-    @GET
-    @Path("/getPostByUserId/{userId}")
-    @Operation(
-            summary = "Get Post by  User Id",
-            responses = {
+                                    schema = @Schema(
+                                            implementation = Post.class
+                                    )
+                            )
+                    ),
                     @ApiResponse(
-                            description = "The Post",
-                            content =
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = Post.class))),
-                    @ApiResponse(responseCode = "400", description = "Post not found")
-            })
-    Response getPostByUserId(@PathParam("userId") long userId);
-
-    @GET
-    @Path("/getPostByTitle")
-    @Operation(
-            summary = "Get Post by  Title",
-            responses = {
-                    @ApiResponse(
-                            description = "The Post",
-                            content =
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = Post.class))),
-                    @ApiResponse(responseCode = "400", description = "Post not found")
-            })
-    Response getPostByTitle(@QueryParam("title") String title);
+                            responseCode = "400",
+                            description = "Bad request"
+                    )
 
 
+            }
+    )
     @POST
-    @Operation(
-            summary = "Create Post",
-            responses = {
-                    @ApiResponse(
-                            description = "The Post",
-                            content =
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = Post.class))),
-                    @ApiResponse(responseCode = "400", description = "Error")
-            })
-    Response createPost(Post post);
+    Response createPost(@Valid Post user,
+                        @Context UriInfo uriInfo);
 
-    @PUT
+    @GET
     @Path("/{id}")
     @Operation(
-            summary = "Edit Post",
+            summary = "Get post by  id",
             responses = {
                     @ApiResponse(
-                            description = "The Post",
+                            description = "The post with id",
+                            responseCode = "200",
                             content =
                             @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = Post.class))),
-                    @ApiResponse(responseCode = "400", description = "Error")
+                                    schema = @Schema(
+                                            implementation = Post.class
+                                    )
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "post not found"
+                    )
             })
-    Response editPost(@PathParam("id") int id, Post post);
+    Response getPostById(@PathParam("id") long id);
 
-    @PUT
-    @Path("/{id}/comments")
     @Operation(
-            summary = "Edit Post",
+            summary = "Update post",
             responses = {
                     @ApiResponse(
-                            description = "The Post",
+                            description = "The updated post",
+                            responseCode = "200",
                             content =
                             @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = Post.class))),
-                    @ApiResponse(responseCode = "400", description = "Error")
-            })
-    Response getPostComments(@PathParam("id") int id);
+                                    schema = @Schema(
+                                            implementation = Post.class
+                                    )
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad request"
+                    ),
+                    @ApiResponse(
+                            responseCode = "409",
+                            description = "post already exists"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found"
+                    )
+            }
+    )
+    @PUT
+    @Path("{id}")
+    Response updatePost(@PathParam("id") long id, @Valid Post post,
+                        @Context UriInfo uriInfo);
 
+    @Operation(
+            summary = "delete post",
+            responses = {
+                    @ApiResponse(
+                            description = "successful deletion of post",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found"
+                    )
+            }
+    )
     @DELETE
-    @Path("/{id}")
-    @Operation(
-            summary = "Delete Post by  id",
-            responses = {
-                    @ApiResponse(
-                            description = "The Post",
-                            content =
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = Post.class))),
-                    @ApiResponse(responseCode = "400", description = "Post not found")
-            })
-    Response deletePost(@PathParam("id") int id);
+    @Path("{id}")
+    Response deletePost(@PathParam("id") long id);
+
 }
+

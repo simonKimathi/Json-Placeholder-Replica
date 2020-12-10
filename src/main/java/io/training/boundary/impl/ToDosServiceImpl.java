@@ -8,17 +8,18 @@ import io.training.util.Constants;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import java.util.Collections;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Stateless
-public class ToDosServiceImpl extends CrudAbstractBeanImpl<ToDo, Long> implements ToDosService {
+public class ToDosServiceImpl extends CrudAbstractBeanImpl<Todo, Long> implements ToDosService {
 
     @PersistenceContext(name = Constants.PERSISTENCE_UNIT_NAME)
     private EntityManager entityManager;
     public ToDosServiceImpl() {
-        super(ToDo.class);
+        super(Todo.class);
     }
 
     @Override
@@ -26,58 +27,29 @@ public class ToDosServiceImpl extends CrudAbstractBeanImpl<ToDo, Long> implement
         return entityManager;
     }
 
-    @Override
-    public List<ToDo> getToDosByUserId(long id) {
-        TypedQuery<ToDo> postTypedQuery = getEntityManager()
-                .createQuery("select t from ToDos t where t.user.id =: id and t.deleteStatus =: deleteStatus", ToDo.class)
-                .setParameter("id", id)
-                .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
-        List<ToDo> postList = postTypedQuery.getResultList();
-        if(postList.size()>0){
-            return postList;
-        }
-        return Collections.emptyList();
-    }
+
 
     @Override
-    public List<ToDo> getToDosByTitle(String title) {
-        TypedQuery<ToDo> postTypedQuery = getEntityManager()
-                .createQuery("select t from ToDos t where t.title LIKE : title and t.deleteStatus =: deleteStatus", ToDo.class)
-                .setParameter("title", "%"+title+"%")
-                .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
-        List<ToDo> postList = postTypedQuery.getResultList();
-        if(postList.size()>0){
-            return postList;
-        }
-        return Collections.emptyList();
-    }
-
-    @Override
-    public boolean delete(ToDo entity) {
+    public boolean delete(Todo entity) {
         entity.setDeleteStatus(DeleteStatus.DELETED);
-        ToDo edit= update(entity);
+        Todo edit= update(entity);
         return edit != null;
     }
 
     @Override
-    public ToDo find(Long id) {
-        List<ToDo> resultList = getEntityManager().createQuery("select t from ToDos t where t.deleteStatus =: deleteStatus and t.id =: id ", ToDo.class)
-                .setParameter("deleteStatus", DeleteStatus.AVAILABLE)
-                .setParameter("id",id)
-                .getResultList();
-        if (resultList.size()>0 && resultList != null){
-            return resultList.get(0);
-        }
-        return null;
+    public List<Todo> findAllByUserId(long userId) {
+        CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Todo> query = criteriaBuilder.createQuery(Todo.class);
+        Root<Todo> from = query.from(Todo.class);
+        query.select(from)
+                .where(
+                        criteriaBuilder.equal(
+                                from.get("user").get("id"),
+                                userId
+                        )
+                );
+        return getEntityManager().createQuery(query).getResultList();
     }
 
-    @Override
-    public List<ToDo> findAll() {
-        List<ToDo> resultList = getEntityManager().createQuery("select t from ToDos t where t.deleteStatus =: deleteStatus", ToDo.class)
-                .setParameter("deleteStatus", DeleteStatus.AVAILABLE).getResultList();
-        if (resultList.size()>0 && resultList != null){
-            return resultList;
-        }
-        return Collections.emptyList();
-    }
+
 }

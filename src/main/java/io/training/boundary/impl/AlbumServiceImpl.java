@@ -2,7 +2,9 @@ package io.training.boundary.impl;
 
 import io.training.boundary.AlbumService;
 import io.training.entity.Album;
+import io.training.entity.Comment;
 import io.training.util.Constants;
+import io.training.util.DeleteStatus;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -23,6 +25,13 @@ public class AlbumServiceImpl extends CrudAbstractBeanImpl<Album, Long> implemen
     @Override
     protected EntityManager getEntityManager() {
         return entityManager;
+    }
+
+    @Override
+    public boolean delete(Album entity) {
+        entity.setDeleteStatus(DeleteStatus.DELETED);
+        Album edit= update(entity);
+        return edit != null;
     }
 
     @Override

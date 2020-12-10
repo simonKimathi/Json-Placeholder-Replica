@@ -15,7 +15,7 @@ public abstract class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private long id;
+    private Long id;
 
     @Column
     @Enumerated(EnumType.STRING)

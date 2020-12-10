@@ -28,57 +28,10 @@ public class UserServiceImpl extends CrudAbstractBeanImpl<User, Long> implements
   }
 
   @Override
-  public Optional<User> getUserByEmail(String email) {
-    TypedQuery<User> userTypedQuery =getEntityManager()
-            .createQuery("select u from User u where u.email =: email and u.deleteStatus =: deleteStatus",User.class)
-            .setParameter("email",email)
-            .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
-    List<User> userList=userTypedQuery.getResultList();
-    if(userList.size()>0){
-      return Optional.of(userList.get(0));
-    }
-      return Optional.empty();
-  }
-
-  @Override
-  public Optional<User> getUserByUsername(String username) {
-    TypedQuery<User> userTypedQuery =getEntityManager()
-            .createQuery("select u from User u where u.username= : username and u.deleteStatus =: deleteStatus",User.class)
-            .setParameter("username",username)
-            .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
-    List<User> userList=userTypedQuery.getResultList();
-    if(userList.size()>0){
-      return Optional.of(userList.get(0));
-    }
-    return Optional.empty();
-  }
-
-  @Override
   public boolean delete(User entity) {
     entity.setDeleteStatus(DeleteStatus.DELETED);
     User edit= update(entity);
     return edit != null;
   }
 
-  @Override
-  public User find(Long id) {
-    List<User> resultList = getEntityManager().createQuery("select u from User u where u.deleteStatus =: deleteStatus and u.id =: id ",User.class)
-            .setParameter("deleteStatus", DeleteStatus.AVAILABLE)
-            .setParameter("id",id)
-            .getResultList();
-    if (resultList.size()>0 && resultList != null){
-      return resultList.get(0);
-    }
-    return null;
-  }
-
-  @Override
-  public List<User> findAll() {
-    List<User> resultList = getEntityManager().createQuery("select u from User u where u.deleteStatus =: deleteStatus",User.class)
-            .setParameter("deleteStatus", DeleteStatus.AVAILABLE).getResultList();
-    if (resultList.size()>0 && resultList != null){
-      return resultList;
-    }
-    return Collections.emptyList();
-  }
 }

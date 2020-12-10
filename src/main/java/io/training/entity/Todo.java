@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ToDo extends BaseEntity {
+public class Todo extends BaseEntity {
 
     @Column
     @NotEmpty

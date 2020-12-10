@@ -9,6 +9,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,33 +31,6 @@ public class CommentServiceImpl extends CrudAbstractBeanImpl<Comment,Integer> im
     }
 
     @Override
-    public List<Comment> getCommentByNameOrEmail(String nameOrEmail) {
-        TypedQuery<Comment> commentTypedQuery = getEntityManager()
-                .createQuery("select c from Comment c where c.name LIKE : nameOrEmail or c.email LIKE : nameOrEmail and c.deleteStatus =: deleteStatus", Comment.class)
-                .setParameter("nameOrEmail", "%"+nameOrEmail+"%")
-                .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
-        List<Comment> commentList = commentTypedQuery.getResultList();
-        if(commentList.size()>0){
-            return commentList;
-        }
-        return null;
-    }
-
-    @Override
-    public List<Comment> getCommentByPostId(int userId) {
-        TypedQuery<Comment> commentTypedQuery = getEntityManager()
-                .createQuery("select c from Comment c where c.post.id =: userId and c.deleteStatus =: deleteStatus", Comment.class)
-                .setParameter("userId", userId)
-                .setParameter("deleteStatus", DeleteStatus.AVAILABLE);
-        List<Comment> commentList = commentTypedQuery.getResultList();
-        if(commentList.size()>0){
-            return commentList;
-        }
-        return null;
-    }
-
-
-    @Override
     public boolean delete(Comment entity) {
         entity.setDeleteStatus(DeleteStatus.DELETED);
         Comment edit= update(entity);
@@ -62,24 +38,18 @@ public class CommentServiceImpl extends CrudAbstractBeanImpl<Comment,Integer> im
     }
 
     @Override
-    public Comment find(Integer id) {
-        List<Comment> resultList = getEntityManager().createQuery("select c from Comment c where c.deleteStatus =: deleteStatus and c.id =: id ",Comment.class)
-                .setParameter("deleteStatus", DeleteStatus.AVAILABLE)
-                .setParameter("id",id)
-                .getResultList();
-        if (resultList.size()>0 && resultList != null){
-            return resultList.get(0);
-        }
-        return null;
+    public List<Comment> findAllByPostId(long postId) {
+        CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Comment> query = criteriaBuilder.createQuery(Comment.class);
+        Root<Comment> from = query.from(Comment.class);
+        query.select(from)
+                .where(
+                        criteriaBuilder.equal(
+                                from.get("post").get("id"),
+                                postId
+                        )
+                );
+        return getEntityManager().createQuery(query).getResultList();
     }
 
-    @Override
-    public List<Comment> findAll() {
-        List<Comment> resultList = getEntityManager().createQuery("select c from Comment c where c.deleteStatus =: deleteStatus",Comment.class)
-                .setParameter("deleteStatus", DeleteStatus.AVAILABLE).getResultList();
-        if (resultList.size()>0 && resultList != null){
-            return resultList;
-        }
-        return Collections.emptyList();
-    }
 }

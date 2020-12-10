@@ -2,7 +2,7 @@ package io.training.control.rest.impl;
 
 import io.training.boundary.ToDosService;
 import io.training.control.rest.ToDosRESTEndpoint;
-import io.training.entity.ToDo;
+import io.training.entity.Todo;
 
 import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
@@ -14,7 +14,7 @@ public class ToDosRESTEndpointImpl implements ToDosRESTEndpoint {
 
     @Override
     public Response retrieveToDos(long id) {
-        ToDo toDo = toDosService.find(id);
+        Todo toDo = toDosService.find(id);
         if(toDo ==null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -24,34 +24,17 @@ public class ToDosRESTEndpointImpl implements ToDosRESTEndpoint {
     @Override
     public Response getAllToDoss() {
 
-        List<ToDo> commentList = toDosService.findAll();
+        List<Todo> commentList = toDosService.findAll();
         if(commentList.size()>0){
             return Response.ok().entity(commentList).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 
-    @Override
-    public Response getToDosByUserId(long id) {
-        List<ToDo> toDoList = toDosService.getToDosByUserId(id);
-        if(toDoList.size()>0){
-            return Response.ok().entity(toDoList).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }
 
     @Override
-    public Response getToDosByTitle(String title) {
-        List<ToDo> toDoList = toDosService.getToDosByTitle(title);
-        if(toDoList.size()>0){
-            return Response.ok().entity(toDoList).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND).build();
-    }
-
-    @Override
-    public Response createToDos(ToDo toDo) {
-        ToDo createdTodos = toDosService.save(toDo);
+    public Response createToDos(Todo toDo) {
+        Todo createdTodos = toDosService.save(toDo);
         if(createdTodos==null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -59,21 +42,21 @@ public class ToDosRESTEndpointImpl implements ToDosRESTEndpoint {
     }
 
     @Override
-    public Response editToDos(long id, ToDo toDo) {
+    public Response editToDos(long id, Todo toDo) {
         if(id != toDo.getId()){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        ToDo findTodos = toDosService.find(id);
+        Todo findTodos = toDosService.find(id);
         if(findTodos == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        ToDo editedTodos = toDosService.update(toDo);
+        Todo editedTodos = toDosService.update(toDo);
         return Response.ok().entity(toDosService).build();
     }
 
     @Override
     public Response deleteToDos(long id) {
-        ToDo deletedTodos = toDosService.find(id);
+        Todo deletedTodos = toDosService.find(id);
         if(deletedTodos==null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

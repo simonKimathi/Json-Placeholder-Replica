@@ -1,99 +1,71 @@
 package io.training.control.rest.impl;
 
+import io.training.boundary.PostService;
+import io.training.control.rest.PostRESTEndpoint;
+import io.training.entity.Post;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.core.Response;
-
-import io.training.boundary.CommentService;
-import io.training.boundary.PostService;
-import io.training.control.rest.PostRESTEndpoint;
-import io.training.entity.Comment;
-import io.training.entity.Post;
-
-import java.util.List;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.util.Optional;
 
 @Stateless
 public class PostRESTEndpointImpl implements PostRESTEndpoint {
   @EJB
   private PostService postService;
 
-  @EJB
-  private CommentService commentService;
+  @Override
+  public Response listAllPosts(long userId) {
+    return userId > 0 ? Response.ok(postService.findAllByUserId(userId)).build()
+            : Response.ok(postService.findAll()).build();
+
+  }
 
   @Override
-  public Response getPostById(int id) {
-    Post post = postService.find(id);
-    if(post==null){
+  public Response createPost(Post post, UriInfo uriInfo) {
+    if (postService.existsById(post.getId())) {
+      return Response.status(Response.Status.CONFLICT).build();
+    }
+    Post savedPost = postService.save(post);
+    URI location = uriInfo.getBaseUriBuilder()
+            .path(PostRESTEndpoint.class)
+            .path(String.valueOf(savedPost.getId()))
+            .build();
+    return Response.created(location).entity(savedPost).build();
+  }
+
+  @Override
+  public Response getPostById(long id) {
+    Optional<Post> optionalPost = postService.findById(id);
+    return optionalPost.isPresent() ?
+            Response.ok().entity(optionalPost.get()).build()
+            :
+            Response.status(Response.Status.NOT_FOUND).build();
+  }
+
+  @Override
+  public Response updatePost(long id, Post post, UriInfo uriInfo) {
+    if (!postService.existsById(id)) {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
-    return Response.ok().entity(post).build();
+    Post updatePost = postService.update(post);
+    URI location = uriInfo.getBaseUriBuilder()
+            .path(PostRESTEndpoint.class)
+            .path(String.valueOf(updatePost.getId()))
+            .build();
+    return Response.created(location).entity(updatePost).build();
+
   }
 
   @Override
-  public Response getAllPosts() {
-    List<Post> postList = postService.findAll();
-    if(postList.size()>0){
-      return Response.ok().entity(postList).build();
-    }
-    return Response.status(Response.Status.NOT_FOUND).build();
-  }
-
-  @Override
-  public Response getPostByUserId(long userId) {
-    List<Post> userList = postService.getPostByUserId(userId);
-    if(userList != null){
-      return Response.ok().entity(userList).build();
-    }
-    return Response.status(Response.Status.NOT_FOUND).build();
-  }
-
-  @Override
-  public Response getPostByTitle(String title) {
-    List<Post> userList = postService.getPostByTitle(title);
-    if(userList != null){
-      return Response.ok().entity(userList).build();
-    }
-    return Response.status(Response.Status.NOT_FOUND).build();
-  }
-
-  @Override
-  public Response createPost(Post post) {
-    Post createdPost = postService.save(post);
-    if (createdPost==null){
-      return Response.status(Response.Status.BAD_REQUEST).build();
-    }
-    return Response.ok().entity(createdPost).build();
-  }
-
-  @Override
-  public Response editPost(int id, Post post) {
-    if(id != post.getId()){
-      return Response.status(Response.Status.BAD_REQUEST).build();
-    }
-    Post FindPost = postService.find(id);
-    if(FindPost == null){
+  public Response deletePost(long id) {
+    if (!postService.existsById(id)) {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
-    Post editedPost = postService.update(post);
-    return Response.ok().entity(editedPost).build();
-  }
-
-  @Override
-  public Response getPostComments(int id) {
-    List<Comment> commentList = commentService.getCommentByPostId(id);
-    if(commentList.size()>0){
-      return Response.ok().entity(commentList).build();
-    }
-    return Response.status(Response.Status.NOT_FOUND).build();
-
-  }
-
-  @Override
-  public Response deletePost(int id) {
-    Post deletedPost = postService.find(id);
-    if (deletedPost==null){
-      return Response.status(Response.Status.BAD_REQUEST).build();
-    }
-    return Response.ok().entity(postService.delete(deletedPost)).build();
+    postService.deleteById(id);
+    return Response.ok().build();
   }
 }
+
